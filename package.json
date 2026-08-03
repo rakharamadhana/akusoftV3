@@ -5,6 +5,7 @@
   "description": "Akusoft v2.0 — cloud-native multi-tenant accounting SaaS for Indonesian UKMs (Web + Android + iOS).",
   "scripts": {
     "dev": "next dev",
+    "ionic:serve": "node scripts/ionic-serve.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@capacitor/cli": "^6.1.2",
     "@capacitor/core": "^6.1.2",
+    "@ionic/cli": "^7.2.1",
     "@types/node": "^20.16.11",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",

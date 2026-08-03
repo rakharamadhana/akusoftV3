@@ -1,0 +1,7 @@
+{
+  "name": "Akusoft UKM",
+  "type": "custom",
+  "integrations": {
+    "capacitor": {}
+  }
+}
