@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-background text-slate-body antialiased;
+    font-family: var(--font-jakarta), 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer components {
+  /* Reused across every reference screen — keep names stable (CLAUDE.md §8). */
+  .micro-shadow {
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+
+  .bento-card {
+    @apply rounded-xl border border-border-light bg-white;
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+  }
+  .bento-card:hover {
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
