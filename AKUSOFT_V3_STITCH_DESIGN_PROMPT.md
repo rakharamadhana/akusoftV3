@@ -1,4 +1,4 @@
-# GOOGLE STITCH DESIGN PROMPTS: Akusoft v2.0 (Bright Light Mode & Crisp Minimalist Aesthetic)
+# GOOGLE STITCH DESIGN PROMPTS: Akusoft v3.0 (Bright Light Mode & Crisp Minimalist Aesthetic)
 
 > **Design Direction**: Clean, Airy, Premium Bright Light Theme (Stripe, Mercury Bank, and Apple Light Mode Aesthetic). High-contrast dark typography on crisp white surfaces with vibrant sapphire blue and mint emerald accents.
 
@@ -24,7 +24,7 @@
 
 ### 1. Executive Financial Dashboard (Bright Light Bento Layout) ⭐
 ```text
-Design a crisp, bright light-mode Executive Financial Dashboard for Akusoft v2.0 inspired by Stripe Dashboard and Mercury Bank UI.
+Design a crisp, bright light-mode Executive Financial Dashboard for Akusoft v3.0 inspired by Stripe Dashboard and Mercury Bank UI.
 Canvas background is soft pearl off-white (#F8FAFC) with pure snow-white cards (#FFFFFF), crisp 1px light borders (#E2E8F0), and soft micro-shadows.
 
 Header: Floating clean white bar with brand mark 'Akusoft 2.0' (Sapphire Blue icon), company dropdown 'PT Akusoft Nusantara ▾', search bar '⌘K Cari faktur atau kontak...', currency indicator 'IDR (Rp)', and notification bell.
@@ -46,7 +46,7 @@ Bottom Section: Clean transaction data table on white background with crisp alte
 
 ### 2. Indonesian Invoice Builder & Live PDF Preview (Bright Light Theme) ⭐
 ```text
-Design a bright light-mode split-screen Invoice Builder for Akusoft v2.0.
+Design a bright light-mode split-screen Invoice Builder for Akusoft v3.0.
 Background is soft pearl white (#F8FAFC).
 Left Pane (Pure White Card Builder): Customer selection dropdown with NPWP & WhatsApp fields, itemized table with QTY, Unit Price (IDR), Subtotal, PPN 11% toggle switch, and Grand Total badge in bold sapphire blue 'Rp 30.525.000'.
 Right Pane (Floating White Document Preview): A pristine white PDF invoice document with company logo, clean item breakdown, QRIS code box, and floating top action bar containing buttons: 'WhatsApp Direct', 'Download PDF', 'Generate QRIS', and 'Cetak'.
@@ -56,7 +56,7 @@ Right Pane (Floating White Document Preview): A pristine white PDF invoice docum
 
 ### 3. QRIS & Virtual Account Payment Modal (Bright Light Theme) ⭐
 ```text
-Design a bright light-mode Modal Overlay for QRIS & Bank Transfer Payment in Akusoft v2.0.
+Design a bright light-mode Modal Overlay for QRIS & Bank Transfer Payment in Akusoft v3.0.
 The modal floats centrally over a subtle backdrop blur.
 Top Header: Total Tagihan 'Rp 30.525.000' in bold dark slate typography (#0F172A).
 Center: High-resolution QRIS barcode on a crisp white card with logos of GoPay, OVO, ShopeePay, DANA, and LinkAja.
@@ -68,7 +68,7 @@ Bottom: Pulsing live status indicator '• Menunggu Pembayaran dari Pelanggan (R
 
 ### 4. Kas, Bank & AI Reconciliation (Bright Light Theme) ⭐
 ```text
-Design a bright light-mode Bank Accounts & AI Reconciliation screen for Akusoft v2.0.
+Design a bright light-mode Bank Accounts & AI Reconciliation screen for Akusoft v3.0.
 Top Section: 3 clean bank card widgets for Bank BCA (Rp 95.000.000), Bank Mandiri (Rp 35.200.000), and Kas Utama with crisp borders, bank logos, and balance numbers.
 Main Section (AI Bank Statement Matcher): White split card with uploaded bank mutasi on the left and logged transactions on the right. Highlight AI confidence match pills ('99% Match' in mint green) with an interactive 'Cocokkan (Reconcile)' button for each row.
 ```
@@ -77,6 +77,6 @@ Main Section (AI Bank Statement Matcher): White split card with uploaded bank mu
 
 ### 5. Mobile App View (Bright Light Theme Smartphone UI) 📱
 ```text
-Design a bright light-mode mobile app view (iPhone 15 Pro format) for Akusoft v2.0.
+Design a bright light-mode mobile app view (iPhone 15 Pro format) for Akusoft v3.0.
 Features a clean top header (PT Akusoft Nusantara), 2-column white bento metric cards (Omzet & Laba), primary sapphire blue button '+ Buat Faktur', recent transactions card list with soft pastel status pills, and a crisp bottom navigation bar with active blue icons (Home, Invoices, Bank, Reports).
 ```

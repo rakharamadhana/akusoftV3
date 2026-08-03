@@ -3,7 +3,7 @@
 import { createBrowserClient } from '@supabase/ssr';
 
 /**
- * Browser Supabase client. Akusoft v2.0 is a static export wrapped by Capacitor
+ * Browser Supabase client. Akusoft v3.0 is a static export wrapped by Capacitor
  * (CLAUDE.md §6/§7), so auth is client-side (session persisted in the WebView).
  * Server logic that needs elevated access lives in Supabase Edge Functions.
  *

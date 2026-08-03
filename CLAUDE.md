@@ -1,4 +1,4 @@
-# CLAUDE.md — Akusoft v2.0
+# CLAUDE.md — Akusoft v3.0
 
 > This file governs every design and engineering decision in this repository.
 > **Read it — and the hierarchy in §2 — before designing or building anything.**
@@ -7,7 +7,7 @@
 
 ## 1. Project Identity
 
-**Akusoft v2.0** is a cloud-native, multi-tenant **accounting SaaS for Indonesian UKMs**
+**Akusoft v3.0** is a cloud-native, multi-tenant **accounting SaaS for Indonesian UKMs**
 (Usaha Kecil & Menengah). It ships as one codebase to three targets:
 
 - **Web** — Next.js 14 on **Vercel**.
@@ -26,8 +26,8 @@ Before you design a screen, build a component, choose a color, write copy, or mo
 
 | # | Document | Authoritative for |
 |---|----------|-------------------|
-| **1** | [`AKUSOFT_V2_GIGA_PROMPT.md`](AKUSOFT_V2_GIGA_PROMPT.md) | **WHAT to build** — stack, multi-tenant architecture, domain modules, Supabase schema & RLS, Indonesian tax & localization rules. |
-| **2** | [`AKUSOFT_V2_STITCH_DESIGN_PROMPT.md`](AKUSOFT_V2_STITCH_DESIGN_PROMPT.md) | **Design intent** — per-screen composition, layout, and copy direction. |
+| **1** | [`AKUSOFT_V3_GIGA_PROMPT.md`](AKUSOFT_V3_GIGA_PROMPT.md) | **WHAT to build** — stack, multi-tenant architecture, domain modules, Supabase schema & RLS, Indonesian tax & localization rules. |
+| **2** | [`AKUSOFT_V3_STITCH_DESIGN_PROMPT.md`](AKUSOFT_V3_STITCH_DESIGN_PROMPT.md) | **Design intent** — per-screen composition, layout, and copy direction. |
 | **3** | [`references/luminous_precision/DESIGN.md`](references/luminous_precision/DESIGN.md) | **The canonical design system** — color tokens, typography, radius, spacing, elevation, and component specs. **Token values here are law.** |
 | **4** | `references/<screen>/code.html` + `screen.png` | **The pixel/markup contract** for the specific screen being built. |
 
@@ -95,7 +95,7 @@ When building a specific screen:
 - **Multi-tenancy is non-negotiable:** every table and every query is scoped by
   **`company_id`** and enforced with **Row Level Security** using the
   `is_member_of_company(company_id)` policy pattern.
-- The **SQL DDL in [GIGA §5](AKUSOFT_V2_GIGA_PROMPT.md)** is the source of truth for the
+- The **SQL DDL in [GIGA §5](AKUSOFT_V3_GIGA_PROMPT.md)** is the source of truth for the
   schema — new migrations extend it, they do not diverge from it.
 
 ---

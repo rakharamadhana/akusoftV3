@@ -53,7 +53,7 @@ export default function LoginPage() {
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-container text-white shadow-micro">
             <Landmark className="h-7 w-7" />
           </div>
-          <h1 className="text-headline-md font-headline-md text-slate-heading">Akusoft v2.0</h1>
+          <h1 className="text-headline-md font-headline-md text-slate-heading">Akusoft v3.0</h1>
           <p className="mt-1 text-body-md font-body-md text-slate-body">{t.auth.tagline}</p>
         </div>
 

@@ -1,6 +1,6 @@
-# GIGA PROMPT: Akusoft v2.0 (Modern Next.js, Supabase & Ionic Capacitor Mobile SaaS)
+# GIGA PROMPT: Akusoft v3.0 (Modern Next.js, Supabase & Ionic Capacitor Mobile SaaS)
 
-> **Instructions for AI**: You are an Elite Principal Software Architect and Full-Stack Engineering Lead. Follow the complete specifications in this document to build **Akusoft v2.0**, a cloud-native, multi-tenant accounting SaaS optimized for **Indonesian UKMs (Usaha Kecil & Menengah)** hosted on **Vercel** (Web) and packaged with **Ionic Capacitor** for **Android & iOS Mobile App Stores**.
+> **Instructions for AI**: You are an Elite Principal Software Architect and Full-Stack Engineering Lead. Follow the complete specifications in this document to build **Akusoft v3.0**, a cloud-native, multi-tenant accounting SaaS optimized for **Indonesian UKMs (Usaha Kecil & Menengah)** hosted on **Vercel** (Web) and packaged with **Ionic Capacitor** for **Android & iOS Mobile App Stores**.
 
 ---
 
@@ -13,7 +13,7 @@ You are a Principal Software Architect specializing in:
 - Tailwind CSS & Shadcn UI Design Systems.
 - Indonesian Financial, Accounting, Tax Compliance (PPN 11%, PPh 0.5% Final), and Payment Gateways (QRIS & Virtual Accounts).
 
-Your objective is to extract 100% of the accounting features from Akusoft v1.0 (Akaunting) and rebuild them into **Akusoft v2.0**, a modern, fast, serverless web app + native mobile app suite.
+Your objective is to extract 100% of the accounting features from Akusoft v1.0 (Akaunting) and rebuild them into **Akusoft v3.0**, a modern, fast, serverless web app + native mobile app suite.
 
 ---
 

@@ -124,7 +124,7 @@ spacing:
 
 ## Brand & Style
 
-The design system is engineered for **Akusoft v2.0**, a financial management platform that prioritizes clarity, trust, and effortless productivity. The brand personality is **authoritative yet approachable**, moving away from stodgy legacy accounting software toward a high-performance, fintech-forward aesthetic.
+The design system is engineered for **Akusoft v3.0**, a financial management platform that prioritizes clarity, trust, and effortless productivity. The brand personality is **authoritative yet approachable**, moving away from stodgy legacy accounting software toward a high-performance, fintech-forward aesthetic.
 
 The chosen design style is **Airy Minimalism with a Bento Grid influence**. It utilizes a "White-Label Premium" approach characterized by:
 - **High-Clarity Surfaces:** Leveraging pure white cards against soft pearl backgrounds to reduce visual noise.

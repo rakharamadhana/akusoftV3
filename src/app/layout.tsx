@@ -13,7 +13,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: 'Akusoft UKM — Akuntansi Cerdas untuk Bisnis Indonesia',
   description:
-    'Akusoft v2.0 — aplikasi akuntansi multi-perusahaan untuk UKM Indonesia. Faktur, PPN 11%, PPh Final 0.5%, QRIS, dan laporan keuangan.',
+    'Akusoft v3.0 — aplikasi akuntansi multi-perusahaan untuk UKM Indonesia. Faktur, PPN 11%, PPh Final 0.5%, QRIS, dan laporan keuangan.',
   applicationName: 'Akusoft UKM',
 };
 

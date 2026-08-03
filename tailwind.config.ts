@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * Akusoft v2.0 — "Luminous Precision" design system.
+ * Akusoft v3.0 — "Luminous Precision" design system.
  * Tokens mirror the compiled reference config in references/<screen>/code.html verbatim
  * so reference markup stays reusable across every screen (CLAUDE.md §2, §8).
  *

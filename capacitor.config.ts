@@ -1,6 +1,6 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
-// Akusoft v2.0 mobile wrapper — one web build (out/) → Android & iOS.
+// Akusoft v3.0 mobile wrapper — one web build (out/) → Android & iOS.
 // See CLAUDE.md §7 and GIGA_PROMPT §3.
 const config: CapacitorConfig = {
   appId: 'com.akusoft.app',

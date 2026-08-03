@@ -1,8 +1,8 @@
 {
-  "name": "akusoft-v2",
-  "version": "2.0.0",
+  "name": "akusoft-v3",
+  "version": "3.0.0",
   "private": true,
-  "description": "Akusoft v2.0 — cloud-native multi-tenant accounting SaaS for Indonesian UKMs (Web + Android + iOS).",
+  "description": "Akusoft v3.0 — cloud-native multi-tenant accounting SaaS for Indonesian UKMs (Web + Android + iOS).",
   "scripts": {
     "dev": "next dev",
     "ionic:serve": "node scripts/ionic-serve.mjs",
