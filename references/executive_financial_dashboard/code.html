@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Akusoft v2.0 | Executive Financial Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "slate-heading": "#0F172A",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#4edea3",
+                    "surface-container-high": "#e6e8ea",
+                    "pill-amber-bg": "#FEF3C7",
+                    "on-secondary-fixed": "#002113",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "primary-fixed": "#dbe1ff",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed-variant": "#005236",
+                    "background": "#f7f9fb",
+                    "pill-mint-bg": "#D1FAE5",
+                    "surface-variant": "#e0e3e5",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary": "#006c49",
+                    "on-primary": "#ffffff",
+                    "outline": "#737686",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "inverse-surface": "#2d3133",
+                    "slate-body": "#334155",
+                    "border-light": "#E2E8F0",
+                    "surface-tint": "#0053db",
+                    "surface-container-highest": "#e0e3e5",
+                    "alert-coral": "#EF4444",
+                    "on-secondary-container": "#00714d",
+                    "on-tertiary-fixed-variant": "#2f2ebe",
+                    "inverse-primary": "#b4c5ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-dim": "#d8dadc",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-fixed": "#07006c",
+                    "on-surface-variant": "#434655",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#3e3fcc",
+                    "pill-rose-bg": "#FEE2E2",
+                    "on-tertiary-container": "#f1eeff",
+                    "tertiary-fixed-dim": "#c0c1ff",
+                    "surface": "#f7f9fb",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary-fixed": "#e1e0ff",
+                    "outline-variant": "#c3c6d7",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#191c1e",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eceef0",
+                    "pill-indigo-bg": "#E0E7FF",
+                    "tertiary-container": "#585be6",
+                    "primary": "#004ac6",
+                    "error": "#ba1a1a",
+                    "secondary-container": "#6cf8bb",
+                    "secondary-fixed": "#6ffbbe",
+                    "primary-container": "#2563eb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "stack-lg": "32px",
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "metric-display": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "metric-display": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
+        .micro-shadow { box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .bento-card { transition: all 0.2s ease-in-out; }
+        .bento-card:hover { box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.08); transform: translateY(-2px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-slate-body antialiased">
+<!-- Sidebar (Shared Component) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full p-4 w-64 bg-surface-container-lowest border-r border-border-light z-[60]">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-slate-heading">Akusoft Corp</h1>
+<p class="font-label-md text-label-md text-slate-body opacity-70">Financial Admin</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 bg-primary-container text-on-primary-fixed rounded-lg font-bold translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-body hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Cashflow</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-body hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-body hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Expenses</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-body hover:bg-surface-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Tax</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-surface-container-low rounded-xl">
+<p class="font-label-md text-label-md text-slate-heading mb-1">Penyimpanan</p>
+<div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+<p class="text-[10px] mt-2 text-slate-body">6.5 GB of 10 GB used</p>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="lg:ml-64 min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="sticky top-4 z-50 flex justify-between items-center px-gutter w-full max-w-container-max mx-auto h-16 bg-surface-container-lowest rounded-xl micro-shadow border border-border-light">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-bold text-primary">Akusoft 2.0</span>
+<div class="hidden md:flex items-center gap-1 cursor-pointer hover:bg-surface-container transition-colors px-3 py-1.5 rounded-lg">
+<span class="font-label-md text-label-md text-slate-heading">PT Akusoft Nusantara</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+<div class="flex-1 max-w-md px-8 hidden sm:block">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-background border border-border-light rounded-xl focus:ring-2 focus:ring-primary focus:border-primary font-body-md text-body-md outline-none transition-all" placeholder="⌘K Cari faktur..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-border-light">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-md text-label-md text-slate-heading">IDR (Rp)</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined text-slate-heading">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-alert-coral rounded-full border-2 border-white"></span>
+</button>
+<div class="w-10 h-10 rounded-full border border-border-light overflow-hidden cursor-pointer active:scale-95 transition-transform">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a business executive in a high-key studio setting. The lighting is soft and flattering, emphasizing a clean and approachable demeanor. The background is a soft neutral gray to maintain a minimalist and premium aesthetic for a financial management dashboard interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeKbLT1mNJI9sQvI-Wq725acWFWeJqFsAKC3R7LGORDwYMSptjx_Ors49cymxpBchbPdX8NHW8wYZ42EJQTvoGJj5kPo2HNkt2dCuXZHf144jNlZvW8nqAGPN3scFUj60l3BWJpfsDFSUpK_XsR9mogUQK8Jt6i6nDrYGwUb2WaQIY4mVYvwrV_ODHENjAImTWW7rCfdKhQZFi-OJHtVBV8CyK6h9jDb2RMxyT_0LyVA3eWKs10fcT"/>
+</div>
+</div>
+</header>
+<div class="max-w-container-max mx-auto px-gutter py-8 space-y-8">
+<!-- Welcome Header -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-slate-heading">Ringkasan Eksekutif</h2>
+<p class="font-body-lg text-body-lg text-slate-body">Status keuangan terkini untuk periode Oktober 2023.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-border-light rounded-xl font-label-md text-label-md text-slate-heading hover:bg-surface-container-low transition-colors micro-shadow">
+<span class="material-symbols-outlined">calendar_today</span>
+                        30 Hari Terakhir
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl font-label-md text-label-md hover:bg-primary-container transition-colors micro-shadow">
+<span class="material-symbols-outlined">download</span>
+                        Laporan PDF
+                    </button>
+</div>
+</section>
+<!-- Top Row Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1: Omzet Bruto -->
+<div class="bento-card p-6 bg-white border border-border-light rounded-xl micro-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-pill-mint-bg rounded-lg">
+<span class="material-symbols-outlined text-secondary">trending_up</span>
+</div>
+<span class="px-2 py-1 bg-pill-mint-bg text-secondary font-label-md text-[10px] rounded-full">+14.2%</span>
+</div>
+<p class="font-label-md text-label-md text-slate-body uppercase tracking-wider mb-1">Omzet Bruto</p>
+<h3 class="font-metric-display text-metric-display text-slate-heading">Rp 245.850.000</h3>
+<div class="mt-4 h-12 w-full flex items-end gap-1">
+<!-- Tiny trend chart simulation -->
+<div class="flex-1 bg-secondary-fixed-dim/20 rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-secondary-fixed-dim/20 rounded-t-sm h-[55%]"></div>
+<div class="flex-1 bg-secondary-fixed-dim/20 rounded-t-sm h-[45%]"></div>
+<div class="flex-1 bg-secondary-fixed-dim/20 rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-secondary-fixed-dim/20 rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-secondary-fixed-dim rounded-t-sm h-[100%]"></div>
+</div>
+</div>
+<!-- Card 2: Laba Bersih -->
+<div class="bento-card p-6 bg-white border border-border-light rounded-xl micro-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-pill-indigo-bg rounded-lg">
+<span class="material-symbols-outlined text-tertiary">account_balance</span>
+</div>
+<span class="px-2 py-1 bg-pill-indigo-bg text-tertiary font-label-md text-[10px] rounded-full">Margin 33.5%</span>
+</div>
+<p class="font-label-md text-label-md text-slate-body uppercase tracking-wider mb-1">Laba Bersih</p>
+<h3 class="font-metric-display text-metric-display text-slate-heading">Rp 82.400.000</h3>
+<p class="mt-4 font-body-sm text-body-sm text-slate-body">Estimasi setelah pajak dan beban operasional.</p>
+</div>
+<!-- Card 3: Piutang Usaha -->
+<div class="bento-card p-6 bg-white border border-border-light rounded-xl micro-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-pill-rose-bg rounded-lg">
+<span class="material-symbols-outlined text-alert-coral">assignment_late</span>
+</div>
+<span class="px-2 py-1 bg-pill-rose-bg text-alert-coral font-label-md text-[10px] rounded-full">4 Faktur Overdue</span>
+</div>
+<p class="font-label-md text-label-md text-slate-body uppercase tracking-wider mb-1">Piutang Usaha</p>
+<h3 class="font-metric-display text-metric-display text-slate-heading">Rp 18.500.000</h3>
+<div class="mt-4 flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-primary text-[10px] text-white flex items-center justify-center">+2</div>
+</div>
+</div>
+<!-- Card 4: Total Kas -->
+<div class="bento-card p-6 bg-white border border-border-light rounded-xl micro-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-slate-heading">wallet</span>
+</div>
+<button class="material-symbols-outlined text-slate-body hover:text-primary transition-colors">visibility</button>
+</div>
+<p class="font-label-md text-label-md text-slate-body uppercase tracking-wider mb-1">Total Kas</p>
+<h3 class="font-metric-display text-metric-display text-slate-heading">Rp 134.200.000</h3>
+<div class="mt-4 flex flex-wrap gap-2">
+<span class="px-2 py-0.5 bg-surface-container text-slate-heading font-label-md text-[10px] rounded-md border border-border-light">BCA</span>
+<span class="px-2 py-0.5 bg-surface-container text-slate-heading font-label-md text-[10px] rounded-md border border-border-light">Mandiri</span>
+<span class="px-2 py-0.5 bg-surface-container text-slate-heading font-label-md text-[10px] rounded-md border border-border-light">Kas Utama</span>
+</div>
+</div>
+</section>
+<!-- Middle Section: Analytics & Quick Actions -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Area Chart -->
+<div class="lg:col-span-8 bg-white border border-border-light rounded-xl micro-shadow p-6 relative overflow-hidden">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-slate-heading">Arus Kas (Estimasi)</h4>
+<p class="font-body-md text-body-md text-slate-body">Perbandingan Pemasukan vs Pengeluaran</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-label-md text-label-md">Income</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary/60"></span>
+<span class="font-label-md text-label-md">Expense</span>
+</div>
+</div>
+</div>
+<!-- SVG Chart Simulation -->
+<div class="h-64 w-full bg-gradient-to-t from-slate-50 to-transparent rounded-lg flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 200">
+<!-- Expense Line -->
+<path d="M0,180 Q100,160 200,175 T400,150 T600,165 T800,140" fill="none" opacity="0.4" stroke="#3e3fcc" stroke-dasharray="4" stroke-width="2"></path>
+<!-- Income Area -->
+<path d="M0,200 L0,150 Q100,130 200,145 T400,120 T600,135 T800,110 L800,200 Z" fill="url(#incomeGradient)"></path>
+<path d="M0,150 Q100,130 200,145 T400,120 T600,135 T800,110" fill="none" stroke="#059669" stroke-width="3"></path>
+<defs>
+<lineargradient id="incomeGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#D1FAE5" stop-opacity="1"></stop>
+<stop offset="100%" stop-color="#D1FAE5" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<!-- Tooltip Hover Simulation -->
+<div class="absolute top-[40%] left-[60%] -translate-x-1/2 bg-slate-heading text-white p-3 rounded-xl shadow-xl z-10 pointer-events-none">
+<div class="font-label-md text-[10px] text-slate-400 mb-1">OKTOBER 2023</div>
+<div class="font-headline-sm text-[16px] mb-1">Rp 12.450.000</div>
+<div class="w-full h-[1px] bg-white/10 my-2"></div>
+<p class="font-body-sm text-[11px]">Estimasi PPh Final 0.5%:<br/><span class="text-pill-mint-bg">Rp 1.229.250</span></p>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="lg:col-span-4 space-y-4">
+<div class="bg-white border border-border-light rounded-xl micro-shadow p-6">
+<h4 class="font-headline-sm text-headline-sm text-slate-heading mb-6">Aksi Cepat</h4>
+<div class="grid grid-cols-1 gap-3">
+<button class="flex items-center justify-between w-full p-4 bg-primary text-white rounded-xl hover:bg-primary-container transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-md text-label-md text-lg">Buat Faktur</span>
+</div>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="flex items-center justify-between w-full p-4 bg-white border border-border-light text-slate-heading rounded-xl hover:bg-surface-container-low transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-body">receipt_long</span>
+<span class="font-label-md text-label-md text-lg">Catat Expense</span>
+</div>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="flex items-center justify-between w-full p-4 bg-[#25D366] text-white rounded-xl hover:opacity-90 transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md text-lg">WhatsApp Shortcut</span>
+</div>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>
+</button>
+</div>
+</div>
+<div class="bg-primary-container text-on-primary-fixed p-6 rounded-xl micro-shadow">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-sm">info</span>
+<span class="font-label-md text-[10px] uppercase tracking-widest">Tax Alert</span>
+</div>
+<p class="font-body-md text-body-md font-semibold">Batas pelaporan SPT Masa PPh 21 tersisa 4 hari lagi.</p>
+<a class="inline-block mt-4 text-xs underline font-bold underline-offset-4" href="#">URUS SEKARANG</a>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Transactions Table -->
+<section class="bg-white border border-border-light rounded-xl micro-shadow overflow-hidden">
+<div class="p-6 border-b border-border-light flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h4 class="font-headline-sm text-headline-sm text-slate-heading">Riwayat Transaksi</h4>
+<p class="font-body-md text-body-md text-slate-body">Menampilkan data faktur 7 hari terakhir.</p>
+</div>
+<div class="flex gap-2">
+<div class="relative">
+<input class="pl-3 pr-8 py-2 bg-background border border-border-light rounded-lg text-xs outline-none focus:border-primary" placeholder="Filter klien..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-sm text-slate-400">filter_alt</span>
+</div>
+<button class="p-2 bg-background border border-border-light rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-border-light">
+<th class="px-6 py-4 font-label-md text-label-md text-slate-heading">No. Faktur</th>
+<th class="px-6 py-4 font-label-md text-label-md text-slate-heading">Pelanggan</th>
+<th class="px-6 py-4 font-label-md text-label-md text-slate-heading">Tanggal</th>
+<th class="px-6 py-4 font-label-md text-label-md text-slate-heading">Jumlah</th>
+<th class="px-6 py-4 font-label-md text-label-md text-slate-heading">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md text-slate-heading text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light">
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-primary">#INV/2023/1024</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-heading">Digital Nusantara Corp</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-body">24 Okt 2023</td>
+<td class="px-6 py-4 font-body-md text-body-md font-bold text-slate-heading">Rp 12.500.000</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pill-mint-bg text-secondary font-label-md text-[10px] rounded-full font-bold">LUNAS</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-body hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-primary">#INV/2023/1025</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-heading">Maju Bersama Studio</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-body">22 Okt 2023</td>
+<td class="px-6 py-4 font-body-md text-body-md font-bold text-slate-heading">Rp 8.200.000</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pill-rose-bg text-alert-coral font-label-md text-[10px] rounded-full font-bold">JATUH TEMPO</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="px-3 py-1.5 bg-[#25D366] text-white rounded-lg text-[10px] font-bold hover:opacity-90 transition-opacity inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">chat</span>
+                                        Kirim WA
+                                    </button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-primary">#INV/2023/1026</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-heading">Cahaya Abadi PT</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-body">20 Okt 2023</td>
+<td class="px-6 py-4 font-body-md text-body-md font-bold text-slate-heading">Rp 45.000.000</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pill-mint-bg text-secondary font-label-md text-[10px] rounded-full font-bold">LUNAS</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-body hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-primary">#INV/2023/1027</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-heading">Sinar Jaya Retail</td>
+<td class="px-6 py-4 font-body-md text-body-md text-slate-body">19 Okt 2023</td>
+<td class="px-6 py-4 font-body-md text-body-md font-bold text-slate-heading">Rp 1.450.000</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-pill-amber-bg text-on-tertiary-fixed-variant font-label-md text-[10px] rounded-full font-bold">PENDING</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 text-slate-body hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-border-light flex items-center justify-between">
+<p class="font-label-md text-[10px] text-slate-body">Menampilkan 4 dari 128 faktur</p>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-border-light hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-2 rounded-lg border border-border-light hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Mobile Bottom NavBar (Shared Component) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-border-light flex items-center justify-around px-4 z-[100] micro-shadow">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-body" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px]">Cashflow</span>
+</a>
+<div class="mb-8 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white micro-shadow active:scale-90 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-body" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-[10px]">Invoices</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-body" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px]">Profile</span>
+</a>
+</nav>
+<script>
+        // Keyboard shortcut simulation
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('input').focus();
+            }
+        });
+
+        // Simple animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.bento-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body></html>

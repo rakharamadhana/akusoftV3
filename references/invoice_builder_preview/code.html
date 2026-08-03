@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Akusoft v2.0 | Invoice Builder</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#dbe1ff",
+                    "primary-container": "#2563eb",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#002113",
+                    "on-background": "#191c1e",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-primary-container": "#eeefff",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "on-surface-variant": "#434655",
+                    "tertiary": "#3e3fcc",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface": "#f7f9fb",
+                    "slate-body": "#334155",
+                    "outline": "#737686",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "tertiary-container": "#585be6",
+                    "pill-rose-bg": "#FEE2E2",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#c0c1ff",
+                    "surface-dim": "#d8dadc",
+                    "on-secondary-container": "#00714d",
+                    "tertiary-fixed": "#e1e0ff",
+                    "background": "#f7f9fb",
+                    "slate-heading": "#0F172A",
+                    "on-tertiary-container": "#f1eeff",
+                    "outline-variant": "#c3c6d7",
+                    "pill-mint-bg": "#D1FAE5",
+                    "surface-bright": "#f7f9fb",
+                    "on-tertiary-fixed-variant": "#2f2ebe",
+                    "on-secondary-fixed-variant": "#005236",
+                    "pill-indigo-bg": "#E0E7FF",
+                    "surface-tint": "#0053db",
+                    "error": "#ba1a1a",
+                    "surface-container": "#eceef0",
+                    "inverse-surface": "#2d3133",
+                    "surface-container-high": "#e6e8ea",
+                    "pill-amber-bg": "#FEF3C7",
+                    "surface-container-low": "#f2f4f6",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-container": "#6cf8bb",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#004ac6",
+                    "secondary": "#006c49",
+                    "secondary-fixed-dim": "#4edea3",
+                    "border-light": "#E2E8F0",
+                    "surface-variant": "#e0e3e5",
+                    "secondary-fixed": "#6ffbbe",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#07006c",
+                    "alert-coral": "#EF4444",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-mobile": "16px",
+                    "stack-lg": "32px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "metric-display": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "metric-display": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #334155;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .micro-shadow {
+            box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .micro-shadow-hover:hover {
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.08);
+        }
+        .bento-card {
+            background-color: #ffffff;
+            border: 1px solid #E2E8F0;
+            border-radius: 1rem;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Sidebar Navigation (From Shared Components) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col h-full p-stack-md border-r border-border-light z-50">
+<div class="mb-stack-lg px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Akusoft v2.0</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Financial Admin</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">payments</span>
+<span>Cashflow</span>
+</a>
+<!-- Active State: Invoices -->
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-primary font-bold bg-primary-fixed rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">receipt_long</span>
+<span>Expenses</span>
+</a>
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">account_balance</span>
+<span>Tax</span>
+</a>
+</nav>
+<div class="pt-6 mt-6 border-t border-border-light space-y-2">
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 p-3 font-body-md text-body-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="h-16 fixed top-0 right-0 left-64 bg-surface/80 backdrop-blur-md border-b border-border-light flex justify-between items-center px-gutter z-40">
+<div class="flex items-center bg-surface-container-low rounded-full px-4 py-2 w-96">
+<span class="material-symbols-outlined text-outline mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full" placeholder="Search invoices, clients..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button>
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-border-light">
+<div class="text-right">
+<p class="font-label-md text-slate-heading">Aria Pratama</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Administrator</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-16 h-screen overflow-hidden flex flex-col md:flex-row">
+<!-- Left Pane: Builder -->
+<section class="flex-1 h-full overflow-y-auto p-gutter bg-surface">
+<div class="max-w-3xl mx-auto space-y-gutter">
+<header class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-slate-heading">Create New Invoice</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Draft #INV-2024-0042</p>
+</div>
+<span class="px-3 py-1 bg-pill-amber-bg text-[#D97706] rounded-full text-[12px] font-bold">DRAFT</span>
+</header>
+<!-- Customer Details Bento Cell -->
+<div class="bento-card p-6 micro-shadow">
+<div class="flex items-center gap-2 mb-4">
+<div class="p-2 bg-pill-indigo-bg rounded-lg">
+<span class="material-symbols-outlined text-primary text-lg">person_add</span>
+</div>
+<h3 class="font-headline-sm text-body-lg font-bold text-slate-heading">Customer Information</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="col-span-full">
+<label class="font-label-md text-slate-heading mb-1 block">Customer Name</label>
+<select class="w-full border-border-light rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-body-md p-2.5">
+<option>PT. Teknologi Nusantara Sejahtera</option>
+<option>IndoFood Makmur Corp</option>
+<option>Digital Agency Jakarta</option>
+</select>
+</div>
+<div>
+<label class="font-label-md text-slate-heading mb-1 block">NPWP Number</label>
+<input class="w-full border-border-light rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-body-md p-2.5" type="text" value="01.234.567.8-012.000"/>
+</div>
+<div>
+<label class="font-label-md text-slate-heading mb-1 block">WhatsApp Number</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-body-md text-on-surface-variant">+62</span>
+<input class="w-full pl-12 border-border-light rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-body-md p-2.5" type="text" value="81298765432"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Itemized Table Bento Cell -->
+<div class="bento-card p-0 micro-shadow overflow-hidden">
+<div class="p-6 border-b border-border-light flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="p-2 bg-pill-indigo-bg rounded-lg">
+<span class="material-symbols-outlined text-primary text-lg">list_alt</span>
+</div>
+<h3 class="font-headline-sm text-body-lg font-bold text-slate-heading">Service Items</h3>
+</div>
+<button class="flex items-center gap-1 text-primary font-bold text-body-sm hover:underline">
+<span class="material-symbols-outlined text-sm">add_circle</span> Add Item
+                        </button>
+</div>
+<table class="w-full text-left">
+<thead class="bg-[#F1F5F9] text-label-md text-on-surface-variant border-b border-border-light">
+<tr>
+<th class="px-6 py-3 font-semibold">DESCRIPTION</th>
+<th class="px-6 py-3 font-semibold w-24">QTY</th>
+<th class="px-6 py-3 font-semibold">PRICE (IDR)</th>
+<th class="px-6 py-3 font-semibold text-right">TOTAL</th>
+<th class="px-4 py-3"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light text-body-md">
+<tr>
+<td class="px-6 py-4">
+<p class="font-semibold text-slate-heading">Enterprise UI/UX Design System</p>
+<p class="text-body-sm text-on-surface-variant">Annual maintenance & design tokens</p>
+</td>
+<td class="px-6 py-4">1</td>
+<td class="px-6 py-4 font-medium text-slate-body">27.500.000</td>
+<td class="px-6 py-4 text-right font-bold text-slate-heading">27.500.000</td>
+<td class="px-4 py-4 text-center">
+<button class="text-error opacity-50 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4">
+<p class="font-semibold text-slate-heading">Frontend Implementation</p>
+<p class="text-body-sm text-on-surface-variant">Tailwind CSS React Components</p>
+</td>
+<td class="px-6 py-4">1</td>
+<td class="px-6 py-4 font-medium text-slate-body">0</td>
+<td class="px-6 py-4 text-right font-bold text-slate-heading">0</td>
+<td class="px-4 py-4 text-center">
+<button class="text-error opacity-50 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-low flex flex-col items-end gap-3">
+<div class="flex items-center justify-between w-64 text-body-md">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-semibold text-slate-heading">Rp 27.500.000</span>
+</div>
+<div class="flex items-center justify-between w-64 text-body-md">
+<div class="flex items-center gap-2">
+<span class="text-on-surface-variant">PPN 11%</span>
+<!-- Toggle Switch -->
+<label class="inline-flex relative items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-7 h-4 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<span class="font-semibold text-slate-heading">Rp 3.025.000</span>
+</div>
+<div class="mt-2 pt-4 border-t border-border-light w-64 flex flex-col items-end gap-1">
+<span class="text-label-md text-primary font-bold uppercase tracking-widest">Grand Total</span>
+<span class="font-metric-display text-metric-display text-primary">Rp 30.525.000</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 bg-primary text-white py-4 rounded-xl font-bold font-body-lg hover:bg-primary-container transition-colors shadow-lg shadow-primary/20">
+                        Confirm & Send Invoice
+                    </button>
+<button class="px-6 border border-border-light text-slate-heading font-semibold rounded-xl hover:bg-surface-container transition-colors">
+                        Save as Template
+                    </button>
+</div>
+</div>
+</section>
+<!-- Right Pane: Preview -->
+<section class="hidden lg:flex w-[480px] bg-surface-container-low border-l border-border-light flex-col relative">
+<!-- Floating Preview Actions -->
+<div class="absolute top-6 left-1/2 -translate-x-1/2 z-10 w-[90%] bg-white/90 backdrop-blur-md micro-shadow rounded-full p-1.5 flex items-center justify-between border border-border-light">
+<div class="flex items-center gap-1">
+<button class="p-2 hover:bg-surface-container rounded-full text-secondary transition-colors" title="WhatsApp Direct">
+<span class="material-symbols-outlined text-xl">chat</span>
+</button>
+<button class="p-2 hover:bg-surface-container rounded-full text-primary transition-colors" title="Download PDF">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+</div>
+<div class="flex items-center gap-2 pr-1">
+<button class="flex items-center gap-1.5 px-4 py-1.5 bg-primary-fixed text-primary font-bold text-body-sm rounded-full">
+<span class="material-symbols-outlined text-sm">qr_code_2</span> Generate QRIS
+                    </button>
+<button class="p-2 hover:bg-surface-container rounded-full text-slate-heading transition-colors" title="Print">
+<span class="material-symbols-outlined text-xl">print</span>
+</button>
+</div>
+</div>
+<!-- PDF Container -->
+<div class="flex-1 overflow-y-auto p-12 flex justify-center items-start pt-24">
+<!-- Document Page -->
+<div class="w-full max-w-full bg-white aspect-[1/1.41] shadow-2xl rounded-sm p-10 flex flex-col text-[#1e293b]">
+<!-- Company Header -->
+<div class="flex justify-between items-start mb-10">
+<div class="space-y-1">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-white mb-2">
+<span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+</div>
+<h4 class="font-bold text-lg">Akusoft Finansial</h4>
+<p class="text-[10px] leading-tight text-slate-body max-w-[180px]">
+                                Prosperity Tower, 18th Floor<br/>
+                                SCBD Lot 28, Jakarta Selatan<br/>
+                                finance@akusoft.id
+                            </p>
+</div>
+<div class="text-right">
+<h2 class="text-3xl font-extrabold text-primary tracking-tight mb-2">INVOICE</h2>
+<p class="text-[10px] text-on-surface-variant font-bold">INV/2024/0042</p>
+<p class="text-[10px] text-on-surface-variant">24 Oct 2024</p>
+</div>
+</div>
+<!-- Client Detail -->
+<div class="mb-8 p-4 bg-surface-container rounded-lg">
+<p class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider mb-1">Bill To:</p>
+<p class="font-bold text-sm">PT. Teknologi Nusantara Sejahtera</p>
+<p class="text-[10px] text-slate-body">NPWP: 01.234.567.8-012.000</p>
+</div>
+<!-- Line Items -->
+<div class="flex-1">
+<div class="grid grid-cols-12 border-b-2 border-slate-heading pb-2 text-[10px] font-bold">
+<div class="col-span-7">ITEM DESCRIPTION</div>
+<div class="col-span-2 text-right">QTY</div>
+<div class="col-span-3 text-right">TOTAL (IDR)</div>
+</div>
+<div class="space-y-4 pt-4">
+<div class="grid grid-cols-12 text-[11px] leading-tight">
+<div class="col-span-7">
+<p class="font-bold">Enterprise UI/UX Design System</p>
+<p class="text-[10px] text-slate-body italic">Annual license for 2024-2025</p>
+</div>
+<div class="col-span-2 text-right">1.00</div>
+<div class="col-span-3 text-right font-semibold">27,500,000</div>
+</div>
+<div class="grid grid-cols-12 text-[11px] leading-tight opacity-50">
+<div class="col-span-7">
+<p class="font-bold">Frontend Implementation</p>
+<p class="text-[10px] text-slate-body italic">Complementary support</p>
+</div>
+<div class="col-span-2 text-right">1.00</div>
+<div class="col-span-3 text-right font-semibold">0</div>
+</div>
+</div>
+</div>
+<!-- Footer / QRIS -->
+<div class="mt-auto border-t border-border-light pt-6 flex justify-between items-end">
+<div class="flex gap-4 items-center">
+<div class="w-20 h-20 bg-white border border-border-light p-1 flex items-center justify-center relative rounded-md">
+<img class="w-full h-full object-contain" data-alt="A clean, minimalist QR code graphic centered in a square white box. The QR code should be sharp and high-contrast, representing a QRIS payment gateway. The surrounding background is soft pearl white to match the light-mode UI aesthetic of the Akusoft v2.0 financial platform. Minimal blue accents may be present to reinforce branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0mUeG1fLX4GTR7WumB2WQ_E1QnGwYqmdGJIeCVa4EgXfQ27VW5aLtW3TkxiRZvGFOhXo9tGlNhaL9K0h7mAk6TztC0YLvVRXvsopf3eCBJbnZeV_PV1_NScbz1NSa4CwhvL-c446YILmfAVKo7dejN7Ld-MBYNU6h0LNF5U5x1CNnsucr-oJkL5WbVSrLkKxiAf5aI6DXp5WPGssFI0537gQ9RwAYSCQO5ZjzY3shhIl7Lxd-WLPv"/>
+<div class="absolute -bottom-2 -right-2 bg-primary text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm shadow-sm">QRIS</div>
+</div>
+<div class="max-w-[140px]">
+<p class="text-[8px] font-bold text-on-surface-variant mb-1 uppercase">Payment Info:</p>
+<p class="text-[9px] text-slate-body font-medium">Bank BCA: 8890123982<br/>A/N PT. AKUSOFT TEKNOLOGI</p>
+</div>
+</div>
+<div class="w-48 space-y-1">
+<div class="flex justify-between text-[10px] text-slate-body">
+<span>Subtotal</span>
+<span>27,500,000</span>
+</div>
+<div class="flex justify-between text-[10px] text-slate-body">
+<span>Tax (PPN 11%)</span>
+<span>3,025,000</span>
+</div>
+<div class="flex justify-between text-sm font-bold text-primary pt-2 border-t border-slate-200">
+<span>TOTAL</span>
+<span>Rp 30,525,000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Controls for Preview -->
+<div class="p-6 bg-white border-t border-border-light flex justify-center gap-4">
+<button class="w-8 h-8 rounded-full border border-border-light flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="text-body-sm font-bold text-on-surface-variant flex items-center">100%</span>
+<button class="w-8 h-8 rounded-full border border-border-light flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</section>
+</main>
+<script>
+        // Micro-interaction for inputs
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.closest('.bento-card')?.classList.add('ring-1', 'ring-primary/10');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.closest('.bento-card')?.classList.remove('ring-1', 'ring-primary/10');
+            });
+        });
+
+        // WhatsApp Direct dummy action
+        function triggerWhatsApp() {
+            const phone = document.querySelector('input[value="81298765432"]').value;
+            alert('Opening WhatsApp Direct to: +62' + phone);
+        }
+
+        document.querySelector('[title="WhatsApp Direct"]').addEventListener('click', triggerWhatsApp);
+    </script>
+</body></html>

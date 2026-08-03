@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Company Registration | Akusoft v2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#585be6",
+                    "surface-container-low": "#f2f4f6",
+                    "inverse-primary": "#b4c5ff",
+                    "on-tertiary-fixed": "#07006c",
+                    "on-primary": "#ffffff",
+                    "alert-coral": "#EF4444",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f7f9fb",
+                    "surface-tint": "#0053db",
+                    "surface-dim": "#d8dadc",
+                    "outline-variant": "#c3c6d7",
+                    "on-primary-fixed": "#00174b",
+                    "on-secondary-fixed": "#002113",
+                    "inverse-on-surface": "#eff1f3",
+                    "tertiary": "#3e3fcc",
+                    "on-tertiary-container": "#f1eeff",
+                    "slate-heading": "#0F172A",
+                    "primary-container": "#2563eb",
+                    "on-secondary-fixed-variant": "#005236",
+                    "pill-indigo-bg": "#E0E7FF",
+                    "secondary": "#006c49",
+                    "inverse-surface": "#2d3133",
+                    "border-light": "#E2E8F0",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container-high": "#e6e8ea",
+                    "pill-rose-bg": "#FEE2E2",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary": "#004ac6",
+                    "on-tertiary-fixed-variant": "#2f2ebe",
+                    "error-container": "#ffdad6",
+                    "slate-body": "#334155",
+                    "pill-mint-bg": "#D1FAE5",
+                    "surface": "#f7f9fb",
+                    "secondary-fixed-dim": "#4edea3",
+                    "tertiary-fixed-dim": "#c0c1ff",
+                    "pill-amber-bg": "#FEF3C7",
+                    "on-surface": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-container": "#6cf8bb",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#00714d",
+                    "on-surface-variant": "#434655",
+                    "surface-container": "#eceef0",
+                    "surface-variant": "#e0e3e5",
+                    "secondary-fixed": "#6ffbbe",
+                    "outline": "#737686",
+                    "on-background": "#191c1e",
+                    "tertiary-fixed": "#e1e0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "stack-sm": "8px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "metric-display": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "metric-display": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .bento-card:hover {
+            box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.08);
+        }
+        .step-line::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 24px;
+            width: 2px;
+            height: 48px;
+            background-color: #E2E8F0;
+        }
+        .step-line-active::after {
+            background-color: #2563EB;
+        }
+        .step-line-last::after {
+            display: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-body overflow-x-hidden">
+<!-- Header Navigation (Simplified for Transactional Flow) -->
+<header class="h-16 flex items-center justify-between px-gutter bg-surface/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-slate-heading">Akusoft <span class="font-normal opacity-50">v2.0</span></h1>
+</div>
+<div class="hidden md:flex items-center gap-4">
+<span class="font-body-md text-body-md text-on-surface-variant">Having trouble?</span>
+<button class="font-label-md text-label-md text-primary hover:underline">Contact Support</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto py-12 px-margin-mobile md:px-gutter">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<!-- Left Sidebar: Progress Indicator -->
+<aside class="md:col-span-4 lg:col-span-3 space-y-stack-lg">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-slate-heading mb-2">Create Your Business Account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Setup your financial identity to start managing assets and tax compliance effortlessly.</p>
+</div>
+<nav class="space-y-6">
+<!-- Step 1 -->
+<div class="flex gap-4 relative step-line step-line-active">
+<div class="w-6 h-6 rounded-full bg-primary-container text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary">STEP 1</span>
+<span class="font-headline-sm text-headline-sm text-slate-heading">Business Info</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-4 relative step-line">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-surface flex items-center justify-center z-10">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">STEP 2</span>
+<span class="font-headline-sm text-headline-sm text-slate-heading">Tax Details</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-4 relative step-line-last">
+<div class="w-6 h-6 rounded-full border-2 border-border-light bg-surface flex items-center justify-center z-10">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">STEP 3</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">Team Setup</span>
+</div>
+</div>
+</nav>
+<!-- Help Card -->
+<div class="bento-card p-stack-md mt-12 bg-primary-fixed/30 border-primary-fixed/50">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary">info</span>
+<span class="font-label-md text-label-md text-slate-heading uppercase">Why this info?</span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-body">We need these details to ensure your financial reports comply with local regulations and to generate legal invoices.</p>
+</div>
+</aside>
+<!-- Main Area: Form Container -->
+<div class="md:col-span-8 lg:col-span-9 space-y-gutter">
+<!-- Section 1: Business Info -->
+<section class="bento-card p-8 md:p-10">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-xl bg-pill-indigo-bg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">business</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-slate-heading">Business Info</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your registered company credentials.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-md text-label-md text-slate-heading">Company Name</label>
+<input class="w-full px-4 py-3 rounded-lg border border-border-light font-body-md text-body-md" placeholder="e.g. Akusoft Technology Solutions" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-slate-heading">Industry</label>
+<select class="w-full px-4 py-3 rounded-lg border border-border-light font-body-md text-body-md appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+<option>Select Industry</option>
+<option>Technology & Software</option>
+<option>Manufacturing</option>
+<option>Retail & E-commerce</option>
+<option>Financial Services</option>
+<option>Healthcare</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-slate-heading">Website (Optional)</label>
+<input class="w-full px-4 py-3 rounded-lg border border-border-light font-body-md text-body-md" placeholder="https://www.akusoft.com" type="url"/>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-md text-label-md text-slate-heading">Business Address</label>
+<textarea class="w-full px-4 py-3 rounded-lg border border-border-light font-body-md text-body-md resize-none" placeholder="Enter street name, building number, and floor..." rows="3"></textarea>
+</div>
+</div>
+</section>
+<!-- Section 2: Tax Details -->
+<section class="bento-card p-8 md:p-10">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-xl bg-pill-mint-bg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">payments</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-slate-heading">Tax Details</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Provide tax identification for billing and local compliance.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-md text-label-md text-slate-heading">NPWP Number (Indonesian Tax ID)</label>
+<input class="w-full px-4 py-3 rounded-lg border border-border-light font-body-md text-body-md" placeholder="00.000.000.0-000.000" type="text"/>
+<p class="text-body-sm text-on-surface-variant">Standard 15 or 16 digit format.</p>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-md text-label-md text-slate-heading">Tax Documents</label>
+<div class="border-2 border-dashed border-border-light rounded-xl p-8 text-center bg-surface hover:bg-white hover:border-primary transition-all cursor-pointer group">
+<span class="material-symbols-outlined text-[40px] text-on-surface-variant group-hover:text-primary mb-2 block">cloud_upload</span>
+<p class="font-body-md text-body-md text-slate-heading">Click to upload or drag and drop</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">PDF, JPG or PNG (max. 10MB)</p>
+<input class="hidden" id="fileUpload" type="file"/>
+</div>
+<!-- Mock File List -->
+<div class="mt-4 space-y-2">
+<div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg border border-border-light">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<span class="font-body-md text-body-md text-slate-heading">company_registration_doc.pdf</span>
+</div>
+<button class="text-on-surface-variant hover:text-alert-coral">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Footer -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-4 py-6">
+<button class="w-full md:w-auto px-8 py-3 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors">
+                        Save as Draft
+                    </button>
+<div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+<button class="w-full md:w-auto px-10 py-3 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-primary-container/20">
+                            Continue to Team Setup
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Feedback Overlay (Hidden by default) -->
+<div class="fixed inset-0 bg-slate-heading/20 backdrop-blur-sm z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="successOverlay">
+<div class="bento-card p-10 max-w-sm w-full mx-4 text-center">
+<div class="w-20 h-20 bg-pill-mint-bg rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-secondary text-[48px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-slate-heading mb-2">Step Saved!</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Your business information and tax details have been successfully recorded.</p>
+<button class="w-full py-3 bg-primary-container text-on-primary rounded-lg font-label-md text-label-md" onclick="toggleOverlay()">Proceeding...</button>
+</div>
+</div>
+<script>
+        // Simple Interaction Logic
+        const continueBtn = document.querySelector('button.bg-primary-container');
+        const overlay = document.getElementById('successOverlay');
+
+        continueBtn.addEventListener('click', () => {
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                overlay.classList.remove('opacity-100');
+            }, 3000);
+        });
+
+        function toggleOverlay() {
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            overlay.classList.remove('opacity-100');
+        }
+
+        // File upload mock interaction
+        const dropzone = document.querySelector('.border-dashed');
+        dropzone.addEventListener('click', () => {
+            document.getElementById('fileUpload').click();
+        });
+    </script>
+</body></html>
