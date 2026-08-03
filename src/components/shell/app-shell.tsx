@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Landmark, Search, Bell, ChevronDown, Plus } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Landmark, Search, Bell, ChevronDown, Plus, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/i18n/use-translation';
+import { useAuthStore } from '@/store/auth';
 import { NAV_ITEMS } from './nav-items';
 import type { ReactNode } from 'react';
 
@@ -14,9 +15,17 @@ import type { ReactNode } from 'react';
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const t = useTranslation();
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
+
+  const handleLogout = () => {
+    logout();
+    router.replace('/login');
+  };
 
   return (
     <>
@@ -52,12 +61,25 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="mt-auto rounded-xl bg-surface-container-low p-4">
-          <p className="mb-1 text-label-md font-label-md text-slate-heading">Penyimpanan</p>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
-            <div className="h-full w-[65%] bg-primary-container" />
+        <div className="mt-auto rounded-xl border border-border-light bg-surface-container-low p-4">
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-fixed text-label-md font-bold text-primary">
+              {(user?.name ?? 'A').charAt(0)}
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-label-md font-label-md text-slate-heading">
+                {user?.name ?? 'Akusoft'}
+              </p>
+              <p className="truncate text-[10px] text-slate-body">{user?.email ?? ''}</p>
+            </div>
           </div>
-          <p className="mt-2 text-[10px] text-slate-body">6.5 GB dari 10 GB terpakai</p>
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-border-light bg-white py-2 text-label-md font-label-md text-slate-body transition-colors hover:bg-surface-container"
+          >
+            <LogOut className="h-4 w-4" />
+            {t.common.logout}
+          </button>
         </div>
       </aside>
 
@@ -71,7 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </span>
             <button className="hidden cursor-pointer items-center gap-1 rounded-lg px-3 py-1.5 transition-colors hover:bg-surface-container md:flex">
               <span className="text-label-md font-label-md text-slate-heading">
-                PT Akusoft Nusantara
+                {user?.company ?? 'PT Akusoft Nusantara'}
               </span>
               <ChevronDown className="h-4 w-4 text-slate-body" />
             </button>

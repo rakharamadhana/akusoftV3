@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Providers } from '@/components/providers';
-import { AppShell } from '@/components/shell/app-shell';
 import './globals.css';
 
 const jakarta = Plus_Jakarta_Sans({
@@ -30,9 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={`${jakarta.variable} light`}>
       <body>
-        <Providers>
-          <AppShell>{children}</AppShell>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
