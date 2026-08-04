@@ -27,7 +27,7 @@ export default function ReportsPage() {
   const [year, setYear] = useState(new Date().getFullYear());
   const [isExporting, setIsExporting] = useState(false);
   const pl = useProfitLoss(year);
-  const { data: neraca } = useReportData();
+  const { data: neraca, isPending: neracaPending, isError: neracaError, error: neracaErr, refetch: refetchNeraca } = useReportData();
   const post = usePostRetainedEarnings();
   const yearOptions = pl.data?.years ?? [year];
 
@@ -140,7 +140,18 @@ export default function ReportsPage() {
             </IonCard>
           </>
         )
-      ) : !neraca ? (
+      ) : neracaError ? (
+        <IonCard className="m-0">
+          <IonCardContent className="flex flex-col items-center gap-3 py-8 text-center">
+            <AlertCircle className="h-6 w-6 text-alert-coral" />
+            <p className="text-body-md font-semibold text-alert-coral">Gagal memuat Neraca.</p>
+            <p className="max-w-md text-body-sm text-slate-body">{neracaErr instanceof Error ? neracaErr.message : 'Terjadi kesalahan.'}</p>
+            <IonButton fill="outline" onClick={() => refetchNeraca()}>
+              <RefreshCw className="mr-1 h-4 w-4" /> Coba Lagi
+            </IonButton>
+          </IonCardContent>
+        </IonCard>
+      ) : neracaPending || !neraca ? (
         <IonCard className="m-0"><IonCardContent className="text-center text-slate-body">{t.common.loading}</IonCardContent></IonCard>
       ) : (
         <NeracaView data={neraca} />
@@ -151,26 +162,47 @@ export default function ReportsPage() {
 
 function NeracaView({ data }: { data: NonNullable<ReturnType<typeof useReportData>['data']> }) {
   const t = useTranslation();
-  const totalLiabEquity = data.totalLiabilities + data.modal + data.retained;
+  const totalLiabEquity = data.totalLiabilities + data.totalEquity;
   const balanced = Math.abs(data.totalAssets - totalLiabEquity) < 1;
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      {/* Harta / Assets */}
       <IonCard className="m-0">
         <IonCardContent>
           <h4 className="mb-4 text-headline-sm font-headline-sm text-slate-heading">{t.reports.assets}</h4>
-          <StatementRow label={t.reports.cashAsset} value={formatIDR(data.cash)} />
-          <StatementRow label={t.reports.inventory} value={formatIDR(data.inventory)} />
-          <StatementRow label={t.reports.otherAssets} value={formatIDR(data.otherAssets)} />
+          {data.assets.map((a) => (
+            <StatementRow key={a.code ?? a.name} label={a.name} value={formatIDR(a.value)} />
+          ))}
+          {data.assets.length === 0 && <StatementRow label={t.reports.cashAsset} value={formatIDR(data.cash)} />}
           <StatementRow label={t.reports.totalAssets} value={formatIDR(data.totalAssets)} strong />
         </IonCardContent>
       </IonCard>
+
+      {/* Kewajiban + Modal / Liabilities + Equity */}
       <IonCard className="m-0">
         <IonCardContent>
-          <h4 className="mb-4 text-headline-sm font-headline-sm text-slate-heading">{t.reports.liabilities} + {t.reports.capital}</h4>
-          <StatementRow label={t.reports.liabilities} value={formatIDR(data.totalLiabilities)} />
-          <StatementRow label={t.reports.capital} value={formatIDR(data.modal)} />
-          <StatementRow label={t.reports.retainedProfit} value={formatIDR(data.retained)} muted={data.retained === 0} />
-          <StatementRow label={t.reports.totalLiabEquity} value={formatIDR(totalLiabEquity)} strong />
+          <h4 className="mb-2 text-headline-sm font-headline-sm text-slate-heading">{t.reports.liabilities}</h4>
+          {data.liabilities.map((l) => (
+            <StatementRow key={l.code ?? l.name} label={l.name} value={formatIDR(l.value)} />
+          ))}
+          {data.liabilities.length === 0 && <StatementRow label={t.reports.liabilities} value={formatIDR(0)} muted />}
+          <StatementRow label={t.reports.totalLiabilities} value={formatIDR(data.totalLiabilities)} strong />
+
+          <h4 className="mb-2 mt-6 text-headline-sm font-headline-sm text-slate-heading">{t.reports.capital}</h4>
+          {data.equity.map((e) => (
+            <StatementRow
+              key={e.code ?? e.name}
+              label={e.name}
+              value={formatIDR(e.value)}
+              muted={(e.code === '320' || e.code === '330') && e.value === 0}
+            />
+          ))}
+          <StatementRow label={t.reports.totalCapital} value={formatIDR(data.totalEquity)} strong />
+
+          <div className="mt-4 flex items-center justify-between border-t-2 border-slate-heading/20 pt-3">
+            <span className="text-body-md font-bold text-slate-heading">{t.reports.totalLiabEquity}</span>
+            <span className="text-headline-sm font-headline-sm text-slate-heading">{formatIDR(totalLiabEquity)}</span>
+          </div>
           <div className={`mt-4 flex items-center gap-2 rounded-lg p-3 text-label-md font-label-md ${balanced ? 'bg-pill-mint-bg/50 text-secondary' : 'bg-pill-amber-bg/60 text-[#D97706]'}`}>
             {balanced ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
             {balanced ? t.reports.balanced : t.reports.updateHint}

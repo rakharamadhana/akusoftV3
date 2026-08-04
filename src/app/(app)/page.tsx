@@ -73,16 +73,17 @@ export default function DashboardPage() {
             ) : (
               recent.map((tx) => {
                 const isIn = tx.type === 'income';
+                const targetUrl = isIn ? `/pemasukan/edit?id=${tx.id}` : `/pengeluaran/edit?id=${tx.id}`;
                 return (
-                  <IonItem key={tx.id}>
+                  <IonItem key={tx.id} button detail={false} onClick={() => router.push(targetUrl)} className="cursor-pointer hover:bg-slate-50 transition-colors">
                     <span slot="start" className={isIn ? 'text-secondary' : 'text-alert-coral'}>
                       {isIn ? <ArrowDownLeft className="h-5 w-5" /> : <ArrowUpRight className="h-5 w-5" />}
                     </span>
                     <IonLabel>
-                      <h3 className="text-slate-heading">{tx.description ?? tx.customer ?? '—'}</h3>
+                      <h3 className="text-slate-heading font-medium">{tx.description ?? tx.customer ?? '—'}</h3>
                       <p className="text-slate-body">{formatDateID(tx.paid_at)} · {tx.accounts?.name ?? '—'}</p>
                     </IonLabel>
-                    <div slot="end" className="flex items-center gap-2">
+                    <div slot="end" className="flex items-center gap-3">
                       <IonBadge color={isIn ? 'success' : 'danger'}>{isIn ? t.transactions.inFlow : t.transactions.outFlow}</IonBadge>
                       <span className={`font-bold ${isIn ? 'text-secondary' : 'text-slate-heading'}`}>{formatIDR(Number(tx.amount))}</span>
                     </div>

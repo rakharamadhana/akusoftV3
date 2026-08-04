@@ -32,6 +32,25 @@ export function useTransactions(filter: TxTypeFilter = 'all') {
   });
 }
 
+export function useTransaction(id?: string) {
+  const companyId = useCompanyId();
+  return useQuery({
+    queryKey: ['transaction', companyId, id],
+    enabled: !!companyId && !!id,
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('transactions')
+        .select('*, accounts(name), transaction_items(*)')
+        .eq('company_id', companyId!)
+        .eq('id', id!)
+        .single();
+      if (error) throw error;
+      return data as unknown as Transaction;
+    },
+  });
+}
+
 export interface IncomeLine {
   item_id?: string | null;
   name: string;
@@ -90,6 +109,57 @@ export function useCreateIncome() {
   });
 }
 
+export interface UpdateIncomeInput extends NewIncomeInput {
+  id: string;
+}
+
+export function useUpdateIncome() {
+  const companyId = useCompanyId();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: UpdateIncomeInput) => {
+      if (!companyId) throw new Error('No active company');
+      const supabase = createClient();
+      const { id, lines = [], ...header } = input;
+      const { error } = await supabase
+        .from('transactions')
+        .update(header)
+        .eq('id', id)
+        .eq('company_id', companyId);
+      if (error) throw error;
+
+      const { error: delError } = await supabase
+        .from('transaction_items')
+        .delete()
+        .eq('transaction_id', id)
+        .eq('company_id', companyId);
+      if (delError) throw delError;
+
+      const validLines = lines.filter((l) => l.name.trim() !== '');
+      if (validLines.length > 0) {
+        const { error: liError } = await supabase.from('transaction_items').insert(
+          validLines.map((l) => ({
+            transaction_id: id,
+            company_id: companyId,
+            item_id: l.item_id ?? null,
+            name: l.name,
+            quantity: l.quantity,
+            price: l.price,
+            total: l.quantity * l.price,
+          })),
+        );
+        if (liError) throw liError;
+      }
+      return { id };
+    },
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['transaction', companyId, variables.id] });
+      qc.invalidateQueries({ queryKey: ['reports'] });
+    },
+  });
+}
+
 export interface NewExpenseInput {
   paid_at: string;
   amount: number;
@@ -114,6 +184,53 @@ export function useCreateExpense() {
         .single();
       if (error) throw error;
       return data;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['reports'] });
+    },
+  });
+}
+
+export interface UpdateExpenseInput extends NewExpenseInput {
+  id: string;
+}
+
+export function useUpdateExpense() {
+  const companyId = useCompanyId();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: UpdateExpenseInput) => {
+      if (!companyId) throw new Error('No active company');
+      const supabase = createClient();
+      const { id, ...data } = input;
+      const { error } = await supabase
+        .from('transactions')
+        .update(data)
+        .eq('id', id)
+        .eq('company_id', companyId);
+      if (error) throw error;
+      return { id };
+    },
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['transaction', companyId, variables.id] });
+      qc.invalidateQueries({ queryKey: ['reports'] });
+    },
+  });
+}
+
+export function useDeleteTransaction() {
+  const companyId = useCompanyId();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      if (!companyId) throw new Error('No active company');
+      const supabase = createClient();
+      await supabase.from('transaction_items').delete().eq('transaction_id', id).eq('company_id', companyId);
+      const { error } = await supabase.from('transactions').delete().eq('id', id).eq('company_id', companyId);
+      if (error) throw error;
+      return { id };
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['transactions'] });

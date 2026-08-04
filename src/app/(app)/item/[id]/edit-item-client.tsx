@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import {
   IonCard,
   IonCardContent,
@@ -13,14 +13,20 @@ import {
   IonItem,
   IonLabel,
 } from '@ionic/react';
+import { Trash2, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/i18n/use-translation';
-import { useCreateItem } from '@/lib/data/items';
+import { useItem, useUpdateItem, useDeleteItem } from '@/lib/data/items';
 import { ImageUpload } from '@/components/forms/image-upload';
 
-export default function NewItemPage() {
+export default function EditItemClient() {
   const t = useTranslation();
   const router = useRouter();
-  const createItem = useCreateItem();
+  const params = useParams();
+  const id = params.id as string;
+
+  const { data: item, isLoading, error: itemError } = useItem(id);
+  const updateItem = useUpdateItem();
+  const deleteItem = useDeleteItem();
 
   const [name, setName] = useState('');
   const [sku, setSku] = useState('');
@@ -33,12 +39,29 @@ export default function NewItemPage() {
   const [enabled, setEnabled] = useState(true);
   const [imagePath, setImagePath] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (item) {
+      if (item.name) setName(item.name);
+      if (item.sku) setSku(item.sku);
+      if (item.category) setCategory(item.category);
+      if (item.description) setDescription(item.description);
+      if (item.sale_price) setSalePrice(Number(item.sale_price));
+      if (item.purchase_price) setPurchasePrice(Number(item.purchase_price));
+      if (item.quantity) setQuantity(Number(item.quantity));
+      if (item.taxable !== null) setTaxable(!!item.taxable);
+      if (item.enabled !== null) setEnabled(!!item.enabled);
+      setImagePath(item.image_path ?? null);
+    }
+  }, [item]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      await createItem.mutateAsync({
+      await updateItem.mutateAsync({
+        id,
         name,
         sku: sku || null,
         category: category || null,
@@ -56,11 +79,54 @@ export default function NewItemPage() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm(`Apakah Anda yakin ingin menghapus item "${name}"?`)) return;
+    setIsDeleting(true);
+    setError(null);
+    try {
+      await deleteItem.mutateAsync(id);
+      router.push('/item');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal menghapus item.');
+      setIsDeleting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-12">
+        <IonSpinner name="crescent" />
+        <span className="ml-3 text-slate-body">{t.common.loading}</span>
+      </div>
+    );
+  }
+
+  if (itemError || !item) {
+    return (
+      <div className="p-6 text-center space-y-4">
+        <p className="text-alert-coral font-semibold">Item tidak ditemukan.</p>
+        <IonButton fill="outline" onClick={() => router.push('/item')}>
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Kembali ke Produk
+        </IonButton>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div>
-        <h2 className="text-headline-lg font-headline-lg text-slate-heading">{t.items.formTitle}</h2>
-        <p className="text-body-md font-body-md text-slate-body">{t.items.subtitle}</p>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => router.push('/item')}
+          className="flex h-9 w-9 items-center justify-center rounded-xl border border-border-light bg-white text-slate-600 hover:bg-slate-50"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <div>
+          <h2 className="text-headline-lg font-headline-lg text-slate-heading">Sunting Produk / Item</h2>
+          <p className="text-body-md font-body-md text-slate-body">Ubah informasi stok, harga, dan rincian produk.</p>
+        </div>
       </div>
 
       <form onSubmit={submit} className="grid grid-cols-1 gap-6 xl:grid-cols-12">
@@ -121,13 +187,19 @@ export default function NewItemPage() {
           </IonCard>
         </aside>
 
-        <div className="flex gap-3 xl:col-span-8">
-          <IonButton type="submit" disabled={createItem.isPending}>
-            {createItem.isPending && <IonSpinner name="crescent" slot="start" />}
-            {t.common.save}
-          </IonButton>
-          <IonButton type="button" fill="outline" onClick={() => router.push('/item')}>
-            {t.common.cancel}
+        <div className="flex items-center justify-between xl:col-span-8">
+          <div className="flex gap-3">
+            <IonButton type="submit" disabled={updateItem.isPending}>
+              {updateItem.isPending && <IonSpinner name="crescent" slot="start" />}
+              {t.common.save}
+            </IonButton>
+            <IonButton type="button" fill="outline" onClick={() => router.push('/item')}>
+              {t.common.cancel}
+            </IonButton>
+          </div>
+          <IonButton type="button" color="danger" fill="outline" onClick={handleDelete} disabled={isDeleting}>
+            {isDeleting ? <IonSpinner name="crescent" slot="start" /> : <Trash2 className="h-4 w-4 mr-1" />}
+            Hapus Item
           </IonButton>
         </div>
       </form>

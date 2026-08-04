@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { IonCard, IonList, IonItem, IonLabel, IonButton, IonBadge, IonSpinner, IonListHeader } from '@ionic/react';
-import { TrendingUp, Banknote, Clock, PlusCircle } from 'lucide-react';
+import { TrendingUp, Banknote, Clock, PlusCircle, Pencil } from 'lucide-react';
 import { StatCard } from '@/components/ui/stat-card';
 import { useTranslation } from '@/i18n/use-translation';
 import { formatIDR, formatDateID } from '@/lib/format';
@@ -51,9 +51,11 @@ export default function IncomePage() {
             <IonItem lines="none"><IonLabel className="text-slate-body">{t.common.empty}</IonLabel></IonItem>
           ) : (
             rows.map((r) => (
-              <IonItem key={r.id}>
+              <IonItem key={r.id} button detail={false} onClick={() => router.push(`/pemasukan/edit?id=${r.id}`)} className="cursor-pointer hover:bg-slate-50 transition-colors">
                 <IonLabel>
-                  <h3 className="font-semibold text-slate-heading">{r.customer ?? '—'}</h3>
+                  <h3 className="font-semibold text-slate-heading flex items-center gap-2">
+                    {r.customer ?? '—'}
+                  </h3>
                   <p className="text-slate-body">
                     {formatDateID(r.paid_at)} · {r.income_type ?? r.category ?? '—'} · {r.accounts?.name ?? '—'}
                   </p>
@@ -63,6 +65,17 @@ export default function IncomePage() {
                     {r.basis === 'credit' ? t.income.credit : t.income.cash}
                   </IonBadge>
                   <span className="font-bold text-secondary">{formatIDR(Number(r.amount))}</span>
+                  <IonButton
+                    fill="clear"
+                    size="small"
+                    aria-label={t.common.edit}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/pemasukan/edit?id=${r.id}`);
+                    }}
+                  >
+                    <Pencil className="h-4 w-4 text-slate-500 hover:text-slate-700" />
+                  </IonButton>
                 </div>
               </IonItem>
             ))

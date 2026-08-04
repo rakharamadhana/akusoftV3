@@ -122,7 +122,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <IonHeader className="ion-no-border">
           <IonToolbar>
             {!isSidebarCollapsed ? (
-              <div className="flex items-center justify-between px-3 w-full">
+              <div className="flex items-center justify-between px-4 w-full">
                 <span className="flex items-center gap-2.5 font-bold text-slate-800 text-sm">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary-container text-white shadow-sm ring-2 ring-primary-container/20">
                     <Landmark className="h-4.5 w-4.5" />
@@ -156,7 +156,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonList className={isSidebarCollapsed ? 'px-1 py-2' : undefined}>
+          <IonList className={isSidebarCollapsed ? 'px-1 py-2' : 'py-2 px-0'}>
             {NAV_ITEMS.map(({ key, label, href, icon: Icon }) =>
               !isSidebarCollapsed ? (
                 <IonItem

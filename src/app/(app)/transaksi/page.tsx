@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   IonCard,
   IonList,
@@ -18,6 +19,7 @@ import { useTransactions, type TxTypeFilter } from '@/lib/data/transactions';
 
 export default function TransactionsPage() {
   const t = useTranslation();
+  const router = useRouter();
   const [filter, setFilter] = useState<TxTypeFilter>('all');
   const { data: rows = [], isLoading } = useTransactions(filter);
   const { data: all = [] } = useTransactions('all');
@@ -59,8 +61,15 @@ export default function TransactionsPage() {
           ) : (
             rows.map((x) => {
               const isIn = x.type === 'income';
+              const targetUrl = isIn ? `/pemasukan/edit?id=${x.id}` : `/pengeluaran/edit?id=${x.id}`;
               return (
-                <IonItem key={x.id}>
+                <IonItem
+                  key={x.id}
+                  button
+                  detail={false}
+                  onClick={() => router.push(targetUrl)}
+                  className="cursor-pointer hover:bg-slate-50 transition-colors"
+                >
                   <span slot="start" className={isIn ? 'text-secondary' : 'text-alert-coral'}>
                     {isIn ? <ArrowDownLeft className="h-5 w-5" /> : <ArrowUpRight className="h-5 w-5" />}
                   </span>
@@ -68,9 +77,12 @@ export default function TransactionsPage() {
                     <h3 className="font-medium text-slate-heading">{x.description ?? x.customer ?? x.category ?? '—'}</h3>
                     <p className="text-slate-body">{formatDateID(x.paid_at)} · {x.accounts?.name ?? '—'}</p>
                   </IonLabel>
-                  <span slot="end" className={`font-bold ${isIn ? 'text-secondary' : 'text-slate-heading'}`}>
-                    {isIn ? '+' : '−'} {formatIDR(Number(x.amount))}
-                  </span>
+                  <div slot="end" className="flex items-center gap-3">
+                    <span className={`font-bold ${isIn ? 'text-secondary' : 'text-slate-heading'}`}>
+                      {isIn ? '+' : '−'} {formatIDR(Number(x.amount))}
+                    </span>
+                    <span className="text-slate-400 text-xs font-semibold hover:text-primary-container">Sunting</span>
+                  </div>
                 </IonItem>
               );
             })

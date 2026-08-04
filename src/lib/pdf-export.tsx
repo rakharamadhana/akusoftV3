@@ -105,7 +105,21 @@ export async function downloadReportPDF({
       </Document>
     );
   } else if (neracaData) {
-    const totalLiabEquity = neracaData.totalLiabilities + neracaData.modal + neracaData.retained;
+    const totalEquity = neracaData.totalEquity ?? neracaData.modal + neracaData.retained;
+    const totalLiabEquity = neracaData.totalLiabilities + totalEquity;
+    const assetLines: { name: string; value: number }[] =
+      neracaData.assets ?? [
+        { name: 'Kas & Bank', value: neracaData.cash },
+        { name: 'Persediaan Barang Dagang', value: neracaData.inventory },
+        { name: 'Aset Lainnya', value: neracaData.otherAssets },
+      ];
+    const liabilityLines: { name: string; value: number }[] =
+      neracaData.liabilities ?? [{ name: 'Total Kewajiban', value: neracaData.totalLiabilities }];
+    const equityLines: { name: string; value: number }[] = neracaData.equity ?? [
+      { name: 'Modal', value: neracaData.modal },
+      { name: 'Laba Ditahan Periode Lalu', value: neracaData.labaDitahan ?? 0 },
+      { name: 'Laba Periode Berjalan', value: neracaData.labaBerjalan ?? neracaData.netProfit ?? 0 },
+    ];
     doc = (
       <Document title="Laporan_Neraca">
         <Page size="A4" style={styles.page}>
@@ -114,38 +128,43 @@ export async function downloadReportPDF({
             <Text style={styles.subtitle}>{companyName} · Tanggal Ekspor: {new Date().toLocaleDateString('id-ID')}</Text>
           </View>
 
-          <Text style={styles.sectionHeader}>Aset</Text>
-          <View style={styles.statementRow}>
-            <Text>Kas & Bank</Text>
-            <Text style={styles.boldText}>{formatIDR(neracaData.cash)}</Text>
-          </View>
-          <View style={styles.statementRow}>
-            <Text>Persediaan Barang Dagang</Text>
-            <Text style={styles.boldText}>{formatIDR(neracaData.inventory)}</Text>
-          </View>
-          <View style={styles.statementRow}>
-            <Text>Aset Lainnya</Text>
-            <Text style={styles.boldText}>{formatIDR(neracaData.otherAssets)}</Text>
-          </View>
+          <Text style={styles.sectionHeader}>Harta</Text>
+          {assetLines.map((a, i) => (
+            <View key={`a-${i}`} style={styles.statementRow}>
+              <Text>{a.name}</Text>
+              <Text style={styles.boldText}>{formatIDR(a.value)}</Text>
+            </View>
+          ))}
           <View style={[styles.statementRow, { backgroundColor: '#f1f5f9', marginTop: 4 }]}>
-            <Text style={styles.boldText}>Total Aset</Text>
+            <Text style={styles.boldText}>Total Harta</Text>
             <Text style={[styles.boldText, { color: '#2563eb' }]}>{formatIDR(neracaData.totalAssets)}</Text>
           </View>
 
-          <Text style={[styles.sectionHeader, { marginTop: 20 }]}>Kewajiban & Modal</Text>
-          <View style={styles.statementRow}>
-            <Text>Total Kewajiban</Text>
+          <Text style={[styles.sectionHeader, { marginTop: 20 }]}>Kewajiban</Text>
+          {liabilityLines.map((l, i) => (
+            <View key={`l-${i}`} style={styles.statementRow}>
+              <Text>{l.name}</Text>
+              <Text style={styles.boldText}>{formatIDR(l.value)}</Text>
+            </View>
+          ))}
+          <View style={[styles.statementRow, { backgroundColor: '#f1f5f9', marginTop: 4 }]}>
+            <Text style={styles.boldText}>Total Kewajiban</Text>
             <Text style={styles.boldText}>{formatIDR(neracaData.totalLiabilities)}</Text>
           </View>
-          <View style={styles.statementRow}>
-            <Text>Modal</Text>
-            <Text style={styles.boldText}>{formatIDR(neracaData.modal)}</Text>
-          </View>
-          <View style={styles.statementRow}>
-            <Text>Laba Ditahan</Text>
-            <Text style={styles.boldText}>{formatIDR(neracaData.retained)}</Text>
-          </View>
+
+          <Text style={[styles.sectionHeader, { marginTop: 20 }]}>Modal</Text>
+          {equityLines.map((e, i) => (
+            <View key={`e-${i}`} style={styles.statementRow}>
+              <Text>{e.name}</Text>
+              <Text style={styles.boldText}>{formatIDR(e.value)}</Text>
+            </View>
+          ))}
           <View style={[styles.statementRow, { backgroundColor: '#f1f5f9', marginTop: 4 }]}>
+            <Text style={styles.boldText}>Total Modal</Text>
+            <Text style={styles.boldText}>{formatIDR(totalEquity)}</Text>
+          </View>
+
+          <View style={[styles.statementRow, { marginTop: 12 }]}>
             <Text style={styles.boldText}>Total Kewajiban + Modal</Text>
             <Text style={[styles.boldText, { color: '#2563eb' }]}>{formatIDR(totalLiabEquity)}</Text>
           </View>

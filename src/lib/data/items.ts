@@ -25,6 +25,25 @@ export function useItems() {
   });
 }
 
+export function useItem(id?: string) {
+  const companyId = useCompanyId();
+  return useQuery({
+    queryKey: ['item', companyId, id],
+    enabled: !!companyId && !!id,
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('company_id', companyId!)
+        .eq('id', id!)
+        .single();
+      if (error) throw error;
+      return data as Item;
+    },
+  });
+}
+
 export type NewItemInput = Omit<TablesInsert<'items'>, 'company_id'>;
 
 export function useCreateItem() {
@@ -43,6 +62,35 @@ export function useCreateItem() {
       return data;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['items'] }),
+  });
+}
+
+export interface UpdateItemInput extends Partial<NewItemInput> {
+  id: string;
+}
+
+export function useUpdateItem() {
+  const companyId = useCompanyId();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: UpdateItemInput) => {
+      if (!companyId) throw new Error('No active company');
+      const supabase = createClient();
+      const { id, ...patch } = input;
+      const { data, error } = await supabase
+        .from('items')
+        .update(patch)
+        .eq('id', id)
+        .eq('company_id', companyId)
+        .select('*')
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['items'] });
+      qc.invalidateQueries({ queryKey: ['item', companyId, variables.id] });
+    },
   });
 }
 

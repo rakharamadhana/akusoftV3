@@ -34,6 +34,10 @@ export default function ModalAwalSetupPage() {
   const finish = async (withAmount: boolean) => {
     if (withAmount && modalAwal) {
       await updateAccount.mutateAsync({ id: modalAwal.id, balance: amount });
+      const kasAcc = accounts.find((a) => a.name === 'Kas' || a.code === '110');
+      if (kasAcc) {
+        await updateAccount.mutateAsync({ id: kasAcc.id, balance: amount });
+      }
     }
     await updateCompany.mutateAsync({ currency, setup_completed: true });
     router.replace('/');

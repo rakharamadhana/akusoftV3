@@ -11,11 +11,12 @@ import {
   IonSpinner,
   IonListHeader,
 } from '@ionic/react';
-import { Package, Boxes, AlertTriangle, PlusCircle, Trash2 } from 'lucide-react';
+import { Package, Boxes, AlertTriangle, PlusCircle, Trash2, Pencil } from 'lucide-react';
 import { StatCard } from '@/components/ui/stat-card';
 import { useTranslation } from '@/i18n/use-translation';
 import { formatIDR, formatNumberID } from '@/lib/format';
 import { useItems, useDeleteItem } from '@/lib/data/items';
+import { publicImageUrl } from '@/lib/data/storage';
 
 export default function ItemsPage() {
   const t = useTranslation();
@@ -60,8 +61,18 @@ export default function ItemsPage() {
           ) : items.length === 0 ? (
             <IonItem lines="none"><IonLabel className="text-slate-body">{t.common.empty}</IonLabel></IonItem>
           ) : (
-            items.map((it) => (
-              <IonItem key={it.id}>
+            items.map((it) => {
+              const imgUrl = publicImageUrl('items', it.image_path);
+              return (
+              <IonItem key={it.id} button detail={false} onClick={() => router.push(`/item/edit?id=${it.id}`)} className="cursor-pointer hover:bg-slate-50 transition-colors">
+                <div slot="start" className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border-light bg-slate-50 sm:h-12 sm:w-12">
+                  {imgUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={imgUrl} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <Package className="h-5 w-5 text-slate-300" />
+                  )}
+                </div>
                 <IonLabel>
                   <h3 className="font-semibold text-slate-heading">{it.name}</h3>
                   <p className="text-slate-body">
@@ -71,15 +82,29 @@ export default function ItemsPage() {
                     </span>
                   </p>
                 </IonLabel>
-                <div slot="end" className="flex items-center gap-2">
-                  <span className="font-semibold text-slate-heading">{formatIDR(Number(it.sale_price))}</span>
-                  <IonBadge color={it.enabled ? 'success' : 'medium'}>{it.enabled ? t.common.active : 'Nonaktif'}</IonBadge>
+                <div slot="end" className="flex items-center gap-0.5 sm:gap-1">
+                  <div className="mr-0.5 flex flex-col items-end sm:mr-1">
+                    <span className="font-semibold text-slate-heading">{formatIDR(Number(it.sale_price))}</span>
+                    <IonBadge color={it.enabled ? 'success' : 'medium'} className="mt-0.5">{it.enabled ? t.common.active : 'Nonaktif'}</IonBadge>
+                  </div>
+                  <IonButton
+                    fill="clear"
+                    size="small"
+                    aria-label={t.common.edit}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/item/edit?id=${it.id}`);
+                    }}
+                  >
+                    <Pencil className="h-4 w-4 text-slate-500 hover:text-slate-700" />
+                  </IonButton>
                   <IonButton
                     fill="clear"
                     size="small"
                     color="danger"
                     aria-label={t.common.delete}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       if (confirm(`${t.common.delete} "${it.name}"?`)) deleteItem.mutate(it.id);
                     }}
                   >
@@ -87,7 +112,8 @@ export default function ItemsPage() {
                   </IonButton>
                 </div>
               </IonItem>
-            ))
+              );
+            })
           )}
         </IonList>
       </IonCard>

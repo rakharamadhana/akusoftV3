@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { IonCard, IonList, IonItem, IonLabel, IonButton, IonBadge, IonSpinner, IonListHeader } from '@ionic/react';
-import { Wallet, ShoppingCart, Tag, PlusCircle } from 'lucide-react';
+import { Wallet, ShoppingCart, Tag, PlusCircle, Pencil } from 'lucide-react';
 import { StatCard } from '@/components/ui/stat-card';
 import { useTranslation } from '@/i18n/use-translation';
 import { formatIDR, formatDateID } from '@/lib/format';
-import { useTransactions } from '@/lib/data/transactions';
+import { useTransactions, type TransactionWithAccount } from '@/lib/data/transactions';
 
 export default function ExpensesPage() {
   const t = useTranslation();
@@ -50,8 +50,8 @@ export default function ExpensesPage() {
           ) : rows.length === 0 ? (
             <IonItem lines="none"><IonLabel className="text-slate-body">{t.common.empty}</IonLabel></IonItem>
           ) : (
-            rows.map((r) => (
-              <IonItem key={r.id}>
+            rows.map((r: TransactionWithAccount) => (
+              <IonItem key={r.id} button detail={false} onClick={() => router.push(`/pengeluaran/edit?id=${r.id}`)} className="cursor-pointer hover:bg-slate-50 transition-colors">
                 <IonLabel>
                   <h3 className="font-semibold text-slate-heading">{r.category ?? r.description ?? '—'}</h3>
                   <p className="text-slate-body">
@@ -63,6 +63,17 @@ export default function ExpensesPage() {
                     {r.expense_type === 'merchandise' ? t.expenses.typeMerchandise : t.expenses.typeNonMerchandise}
                   </IonBadge>
                   <span className="font-bold text-slate-heading">{formatIDR(Number(r.amount))}</span>
+                  <IonButton
+                    fill="clear"
+                    size="small"
+                    aria-label={t.common.edit}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/pengeluaran/edit?id=${r.id}`);
+                    }}
+                  >
+                    <Pencil className="h-4 w-4 text-slate-500 hover:text-slate-700" />
+                  </IonButton>
                 </div>
               </IonItem>
             ))

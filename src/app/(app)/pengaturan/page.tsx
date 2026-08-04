@@ -16,10 +16,11 @@ import {
   IonSegment,
   IonSegmentButton,
 } from '@ionic/react';
-import { ImagePlus, PlusCircle, X, Trash2 } from 'lucide-react';
+import { PlusCircle, X, Trash2 } from 'lucide-react';
 import { useTranslation } from '@/i18n/use-translation';
 import { useActiveCompany } from '@/store/auth';
 import { useUpdateCompany, useDeleteCompany } from '@/lib/data/company';
+import { ImageUpload } from '@/components/forms/image-upload';
 import { useCategories, useCreateCategory, useDeleteCategory, type CategoryType } from '@/lib/data/categories';
 import { usePaymentMethods, useCreatePaymentMethod, useDeletePaymentMethod } from '@/lib/data/payment-methods';
 import { IonAlert } from '@ionic/react';
@@ -88,9 +89,12 @@ function GeneralPanel() {
         <IonCardContent>
           <form onSubmit={save} className="space-y-4">
             <div className="flex items-center gap-4">
-              <button type="button" className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-border-light text-[10px] text-slate-body">
-                <ImagePlus className="h-6 w-6" />
-              </button>
+              <ImageUpload
+                bucket="logos"
+                variant="logo"
+                value={company?.logo_path ?? null}
+                onChange={(path) => updateCompany.mutate({ logo_path: path })}
+              />
               <div>
                 <p className="text-label-md font-label-md text-slate-heading">{t.settings.logo}</p>
                 <p className="text-body-sm text-slate-body opacity-70">{t.settings.uploadLogo}</p>
