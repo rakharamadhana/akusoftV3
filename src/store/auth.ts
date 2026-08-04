@@ -11,11 +11,6 @@ import type { Tables } from '@/lib/supabase/database.types';
  * one is persisted so it survives reloads. RLS is the real security boundary.
  */
 
-export const DEMO_ACCOUNT = {
-  email: 'demo@akusoft.id',
-  password: 'akusoft123',
-} as const;
-
 const ACTIVE_KEY = 'akusoft-active-company';
 
 export interface SessionUser {
