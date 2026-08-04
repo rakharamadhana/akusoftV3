@@ -27,8 +27,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Default locale is Bahasa Indonesia (CLAUDE.md §3).
   return (
-    <html lang="id" className={`${jakarta.variable} light`}>
-      <body>
+    // Ionic writes platform classes (plt-*, mode) onto <html>/<body> on the client;
+    // suppressHydrationWarning keeps that from being flagged as a mismatch.
+    <html lang="id" className={`${jakarta.variable} light`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>

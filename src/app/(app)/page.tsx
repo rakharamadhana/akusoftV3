@@ -1,262 +1,145 @@
 'use client';
 
-import {
-  TrendingUp,
-  Landmark,
-  FileWarning,
-  Wallet,
-  PlusCircle,
-  ReceiptText,
-  MessageCircle,
-  ArrowRight,
-  Download,
-  Calendar,
-  Eye,
-} from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useRouter } from 'next/navigation';
+import { IonCard, IonCardContent, IonList, IonItem, IonLabel, IonBadge, IonButton, IonSpinner } from '@ionic/react';
+import { TrendingUp, Landmark, FileWarning, Wallet, ArrowRight, ArrowDownLeft, ArrowUpRight, ArrowDownCircle, ArrowUpCircle } from 'lucide-react';
+import { StatCard } from '@/components/ui/stat-card';
 import { useTranslation } from '@/i18n/use-translation';
+import { useAuthStore } from '@/store/auth';
 import { formatIDR, formatDateID } from '@/lib/format';
-
-// Mock data — replaced by Supabase queries (scoped by company_id via RLS) later.
-const METRICS = {
-  grossRevenue: 245_850_000,
-  netProfit: 82_400_000,
-  receivables: 18_500_000,
-  totalCash: 134_200_000,
-};
-
-const TRANSACTIONS = [
-  { no: '#INV/2023/1024', customer: 'Digital Nusantara Corp', date: '2023-10-24', amount: 12_500_000, status: 'paid' as const },
-  { no: '#INV/2023/1025', customer: 'Maju Bersama Studio', date: '2023-10-22', amount: 8_200_000, status: 'overdue' as const },
-  { no: '#INV/2023/1026', customer: 'Cahaya Abadi PT', date: '2023-10-20', amount: 45_000_000, status: 'paid' as const },
-  { no: '#INV/2023/1027', customer: 'Sinar Jaya Retail', date: '2023-10-19', amount: 1_450_000, status: 'pending' as const },
-];
+import { useReportData } from '@/lib/data/reports';
+import { useAccounts } from '@/lib/data/accounts';
+import { useTransactions } from '@/lib/data/transactions';
 
 export default function DashboardPage() {
   const t = useTranslation();
+  const router = useRouter();
+  const user = useAuthStore((s) => s.user);
+  const { data: report } = useReportData();
+  const { data: accounts = [] } = useAccounts();
+  const { data: transactions = [], isLoading } = useTransactions('all');
+
+  const balanceOf = (names: string[]) =>
+    accounts.filter((a) => names.includes(a.name)).reduce((s, a) => s + Number(a.balance), 0);
+  const totalCash = balanceOf(['Kas', 'Bank']);
+  const receivables = balanceOf(['Piutang Usaha']);
+  const recent = transactions.slice(0, 6);
 
   return (
     <>
-      {/* Welcome header */}
-      <section className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-        <div>
-          <h2 className="text-headline-lg font-headline-lg text-slate-heading">
-            {t.dashboard.title}
-          </h2>
-          <p className="text-body-lg font-body-lg text-slate-body">{t.dashboard.subtitle}</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="secondary">
-            <Calendar className="h-5 w-5" />
-            {t.common.lastNDays}
-          </Button>
-          <Button variant="primary">
-            <Download className="h-5 w-5" />
-            {t.common.downloadPdf}
-          </Button>
-        </div>
+      <div>
+        <h2 className="text-headline-lg font-headline-lg text-slate-heading">{t.dashboard.title}</h2>
+        <p className="text-body-lg font-body-lg text-slate-body">
+          {user?.name ? `${t.dashboard.subtitle} · ${user.name}` : t.dashboard.subtitle}
+        </p>
+      </div>
+
+      {/* Primary actions: side-by-side (left and right) */}
+      <section className="grid grid-cols-2 gap-3 sm:gap-4">
+        <BigAction href="/pemasukan/baru" icon={<ArrowDownCircle className="h-6 w-6 sm:h-7 sm:w-7" />} title={t.dashboard.pendapatan} subtitle={t.dashboard.pendapatanSub} tone="income" onClick={() => router.push('/pemasukan/baru')} />
+        <BigAction href="/pengeluaran/baru" icon={<ArrowUpCircle className="h-6 w-6 sm:h-7 sm:w-7" />} title={t.dashboard.pembayaran} subtitle={t.dashboard.pembayaranSub} tone="expense" onClick={() => router.push('/pengeluaran/baru')} />
       </section>
 
-      {/* Bento metric cards */}
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <MetricCard
-          icon={<TrendingUp className="text-secondary" />}
-          iconBg="bg-pill-mint-bg"
-          label={t.dashboard.grossRevenue}
-          value={formatIDR(METRICS.grossRevenue)}
-          pill={<Badge variant="paid">+14.2%</Badge>}
-        />
-        <MetricCard
-          icon={<Landmark className="text-tertiary" />}
-          iconBg="bg-pill-indigo-bg"
-          label={t.dashboard.netProfit}
-          value={formatIDR(METRICS.netProfit)}
-          pill={<Badge variant="info">{t.dashboard.margin} 33.5%</Badge>}
-        />
-        <MetricCard
-          icon={<FileWarning className="text-alert-coral" />}
-          iconBg="bg-pill-rose-bg"
-          label={t.dashboard.receivables}
-          value={formatIDR(METRICS.receivables)}
-          pill={<Badge variant="overdue">4 {t.dashboard.overdueInvoices}</Badge>}
-        />
-        <MetricCard
-          icon={<Wallet className="text-slate-heading" />}
-          iconBg="bg-surface-container-low"
-          label={t.dashboard.totalCash}
-          value={formatIDR(METRICS.totalCash)}
-          pill={
-            <div className="flex flex-wrap gap-1">
-              {['BCA', 'Mandiri', 'Kas Utama'].map((b) => (
-                <span
-                  key={b}
-                  className="rounded-md border border-border-light bg-surface-container px-2 py-0.5 text-[10px] font-label-md text-slate-heading"
-                >
-                  {b}
-                </span>
-              ))}
-            </div>
-          }
-        />
+      {/* Metrics: swipeable carousel on mobile, bento grid on desktop (DESIGN.md §Layout). */}
+      <section className="metric-scroller -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
+        {[
+          <StatCard key="rev" icon={<TrendingUp className="text-secondary" />} iconBg="bg-pill-mint-bg" label={t.dashboard.grossRevenue} value={formatIDR(report?.totalIncome ?? 0)} />,
+          <StatCard key="net" icon={<Landmark className="text-tertiary" />} iconBg="bg-pill-indigo-bg" label={t.dashboard.netProfit} value={formatIDR(report?.netProfit ?? 0)} />,
+          <StatCard key="ar" icon={<FileWarning className="text-alert-coral" />} iconBg="bg-pill-rose-bg" label={t.dashboard.receivables} value={formatIDR(receivables)} />,
+          <StatCard key="cash" icon={<Wallet className="text-slate-heading" />} iconBg="bg-surface-container-low" label={t.dashboard.totalCash} value={formatIDR(totalCash)} />,
+        ].map((card, i) => (
+          <div key={i} className="min-w-[72%] shrink-0 snap-start sm:min-w-[46%] md:min-w-0 md:shrink">
+            {card}
+          </div>
+        ))}
       </section>
 
-      {/* Chart + quick actions */}
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <Card className="relative overflow-hidden p-6 lg:col-span-8">
-          <div className="mb-8 flex items-center justify-between">
+      <IonCard className="m-0">
+        <IonCardContent>
+          <div className="mb-4 flex items-center justify-between">
             <div>
-              <h4 className="text-headline-sm font-headline-sm text-slate-heading">
-                {t.dashboard.cashflowChart}
-              </h4>
-              <p className="text-body-md font-body-md text-slate-body">
-                {t.dashboard.cashflowChartSub}
-              </p>
+              <h4 className="text-headline-sm font-headline-sm text-slate-heading">{t.dashboard.transactionHistory}</h4>
             </div>
-            <div className="flex items-center gap-4">
-              <Legend color="bg-secondary" label={t.dashboard.income} />
-              <Legend color="bg-tertiary/60" label={t.dashboard.expense} />
-            </div>
+            <IonButton fill="clear" size="small" onClick={() => router.push('/transaksi')}>
+              {t.common.viewAll}
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </IonButton>
           </div>
-          <div className="flex h-64 w-full items-end rounded-lg bg-gradient-to-t from-slate-50 to-transparent">
-            <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 800 200">
-              <defs>
-                <linearGradient id="income" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#D1FAE5" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#D1FAE5" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path d="M0,180 Q100,160 200,175 T400,150 T600,165 T800,140" fill="none" opacity="0.4" stroke="#3e3fcc" strokeDasharray="4" strokeWidth="2" />
-              <path d="M0,200 L0,150 Q100,130 200,145 T400,120 T600,135 T800,110 L800,200 Z" fill="url(#income)" />
-              <path d="M0,150 Q100,130 200,145 T400,120 T600,135 T800,110" fill="none" stroke="#059669" strokeWidth="3" />
-            </svg>
-          </div>
-        </Card>
-
-        <div className="space-y-4 lg:col-span-4">
-          <Card className="p-6">
-            <h4 className="mb-6 text-headline-sm font-headline-sm text-slate-heading">
-              {t.dashboard.quickActions}
-            </h4>
-            <div className="grid grid-cols-1 gap-3">
-              <Button variant="primary" className="h-auto w-full justify-between p-4">
-                <span className="flex items-center gap-3">
-                  <PlusCircle className="h-5 w-5" />
-                  {t.common.createInvoice}
-                </span>
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-              <Button variant="secondary" className="h-auto w-full justify-between p-4">
-                <span className="flex items-center gap-3">
-                  <ReceiptText className="h-5 w-5 text-slate-body" />
-                  {t.common.recordExpense}
-                </span>
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-              <Button variant="whatsapp" className="h-auto w-full justify-between p-4">
-                <span className="flex items-center gap-3">
-                  <MessageCircle className="h-5 w-5" />
-                  WhatsApp Shortcut
-                </span>
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      {/* Transactions table */}
-      <section className="overflow-hidden rounded-xl border border-border-light bg-white shadow-micro">
-        <div className="border-b border-border-light p-6">
-          <h4 className="text-headline-sm font-headline-sm text-slate-heading">
-            {t.dashboard.transactionHistory}
-          </h4>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="border-b border-border-light bg-slate-50">
-                <Th>{t.table.invoiceNo}</Th>
-                <Th>{t.table.customer}</Th>
-                <Th>{t.table.date}</Th>
-                <Th>{t.table.amount}</Th>
-                <Th>{t.table.status}</Th>
-                <Th className="text-right">{t.table.action}</Th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-light">
-              {TRANSACTIONS.map((tx) => (
-                <tr key={tx.no} className="transition-colors hover:bg-slate-50/50">
-                  <td className="px-6 py-4 text-body-md font-semibold text-primary-container">{tx.no}</td>
-                  <td className="px-6 py-4 text-body-md text-slate-heading">{tx.customer}</td>
-                  <td className="px-6 py-4 text-body-md text-slate-body">{formatDateID(tx.date)}</td>
-                  <td className="px-6 py-4 text-body-md font-bold text-slate-heading">{formatIDR(tx.amount)}</td>
-                  <td className="px-6 py-4">
-                    <Badge variant={tx.status}>{t.status[tx.status]}</Badge>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    {tx.status === 'overdue' ? (
-                      <Button variant="whatsapp" size="sm">
-                        <MessageCircle className="h-4 w-4" />
-                        {t.common.shareWhatsApp}
-                      </Button>
-                    ) : (
-                      <button className="p-2 text-slate-body transition-colors hover:text-primary-container">
-                        <Eye className="h-4 w-4" />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+          <IonList>
+            {isLoading ? (
+              <IonItem lines="none"><IonSpinner name="crescent" /></IonItem>
+            ) : recent.length === 0 ? (
+              <IonItem lines="none"><IonLabel className="text-slate-body">{t.common.empty}</IonLabel></IonItem>
+            ) : (
+              recent.map((tx) => {
+                const isIn = tx.type === 'income';
+                return (
+                  <IonItem key={tx.id}>
+                    <span slot="start" className={isIn ? 'text-secondary' : 'text-alert-coral'}>
+                      {isIn ? <ArrowDownLeft className="h-5 w-5" /> : <ArrowUpRight className="h-5 w-5" />}
+                    </span>
+                    <IonLabel>
+                      <h3 className="text-slate-heading">{tx.description ?? tx.customer ?? '—'}</h3>
+                      <p className="text-slate-body">{formatDateID(tx.paid_at)} · {tx.accounts?.name ?? '—'}</p>
+                    </IonLabel>
+                    <div slot="end" className="flex items-center gap-2">
+                      <IonBadge color={isIn ? 'success' : 'danger'}>{isIn ? t.transactions.inFlow : t.transactions.outFlow}</IonBadge>
+                      <span className={`font-bold ${isIn ? 'text-secondary' : 'text-slate-heading'}`}>{formatIDR(Number(tx.amount))}</span>
+                    </div>
+                  </IonItem>
+                );
+              })
+            )}
+          </IonList>
+        </IonCardContent>
+      </IonCard>
     </>
   );
 }
 
-function MetricCard({
+function BigAction({
   icon,
-  iconBg,
-  label,
-  value,
-  pill,
+  title,
+  subtitle,
+  tone,
+  onClick,
 }: {
+  href: string;
   icon: React.ReactNode;
-  iconBg: string;
-  label: string;
-  value: string;
-  pill: React.ReactNode;
+  title: string;
+  subtitle: string;
+  tone: 'income' | 'expense';
+  onClick: () => void;
 }) {
-  return (
-    <Card className="bento-card p-6">
-      <div className="mb-4 flex items-start justify-between">
-        <div className={`rounded-lg p-2 ${iconBg}`}>{icon}</div>
-        {pill}
-      </div>
-      <p className="mb-1 text-label-md font-label-md uppercase tracking-wider text-slate-body">
-        {label}
-      </p>
-      <h3 className="text-metric-display font-metric-display text-slate-heading">{value}</h3>
-    </Card>
-  );
-}
+  const isIncome = tone === 'income';
+  const iconBg = isIncome
+    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/25 ring-4 ring-emerald-500/10'
+    : 'bg-blue-600 text-white shadow-md shadow-blue-600/25 ring-4 ring-blue-600/10';
+  const bg = isIncome
+    ? 'linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(255,255,255,1) 100%)'
+    : 'linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(255,255,255,1) 100%)';
 
-function Legend({ color, label }: { color: string; label: string }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className={`h-3 w-3 rounded-full ${color}`} />
-      <span className="text-label-md font-label-md">{label}</span>
-    </div>
-  );
-}
-
-function Th({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <th className={`px-6 py-4 text-label-md font-label-md text-slate-heading ${className}`}>
-      {children}
-    </th>
+    <IonCard
+      className="card-button m-0 h-full min-h-[145px] sm:min-h-[165px] overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
+      button
+      onClick={onClick}
+      style={{ background: bg }}
+    >
+      <IonCardContent className="p-4 sm:p-6 flex flex-col justify-between h-full space-y-3">
+        <div className="flex items-center justify-between w-full">
+          <div className={`flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl ${iconBg}`}>
+            {icon}
+          </div>
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100/90 text-slate-500">
+            <ArrowRight className="h-4 w-4" />
+          </div>
+        </div>
+        <div className="space-y-1">
+          <h3 className="text-base sm:text-lg font-bold text-slate-heading leading-tight">{title}</h3>
+          <p className="text-xs sm:text-body-sm font-medium text-slate-body opacity-80 leading-snug">{subtitle}</p>
+        </div>
+      </IonCardContent>
+    </IonCard>
   );
 }

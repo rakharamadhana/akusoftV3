@@ -1,16 +1,20 @@
 'use client';
 
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient as createSupabaseClient, type SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from './database.types';
 
 /**
- * Browser Supabase client. Akusoft v3.0 is a static export wrapped by Capacitor
- * (CLAUDE.md §6/§7), so auth is client-side (session persisted in the WebView).
- * Server logic that needs elevated access lives in Supabase Edge Functions.
+ * Browser Supabase client. Akusoft is a static export wrapped by Capacitor
+ * (CLAUDE.md §6/§7), so there is no SSR: auth is fully client-side and the
+ * session is persisted in localStorage / the Capacitor WebView. We use the
+ * plain supabase-js client (not @supabase/ssr, which targets cookie-based SSR).
  *
  * All tenant data is isolated by company_id via RLS (CLAUDE.md §5) — the client
  * never needs to filter by company_id manually for security, only for UX.
  */
-export function createClient() {
+let browserClient: SupabaseClient<Database> | undefined;
+
+export function createClient(): SupabaseClient<Database> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -20,5 +24,15 @@ export function createClient() {
     );
   }
 
-  return createBrowserClient(url, anonKey);
+  // Reuse a single client so the auth session listener isn't re-registered.
+  if (!browserClient) {
+    browserClient = createSupabaseClient<Database>(url, anonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
+  }
+  return browserClient;
 }

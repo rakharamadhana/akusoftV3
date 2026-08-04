@@ -79,8 +79,13 @@ When building a specific screen:
 
 ## 4. Tech Stack (locked — per GIGA §2)
 
-- **Framework:** Next.js 14+ (App Router, Server Actions) + React 18 + TypeScript.
-- **UI:** Tailwind CSS + Shadcn UI + Radix UI + Lucide icons + Framer Motion.
+- **Framework:** Next.js 14+ (App Router) + React 18 + TypeScript.
+- **UI (mobile-first): Ionic Framework `@ionic/react` (v8) is the component layer** — see §8.1.
+  Use `ion-*` components (`IonPage`, `IonContent`, `IonButton`, `IonInput`, `IonCard`,
+  `IonList`, `IonModal`, `IonSegment`, `IonMenu`, `IonTabBar`, …) so the same build feels
+  native on iOS and Android. Tailwind CSS + Lucide icons remain available for layout/utility
+  styling and custom bits; Ionic components are themed to the Luminous Precision palette via
+  Ionic CSS variables (`--ion-color-*`). (Radix/Shadcn are legacy — prefer Ionic for new UI.)
 - **Data/state:** TanStack Query (React Query v5) + Zustand.
 - **Charts:** Recharts / Tremor.
 - **PDF:** `@react-pdf/renderer`.
@@ -109,10 +114,15 @@ When building a specific screen:
 
 ---
 
-## 7. Mobile — Ionic Capacitor 6+
+## 7. Mobile — Ionic Framework + Capacitor 6+
 
-One web codebase → Web + Android + iOS.
+One web codebase → Web + Android + iOS. **The UI is built with Ionic Framework
+(`@ionic/react`) components** (§4/§8.1) and packaged natively with **Capacitor**.
 
+- **Ionic React within Next.js App Router:** we keep Next's file-based routing and use Ionic
+  *components* à la carte (not `IonReactRouter`/`IonRouterOutlet`). `setupIonicReact()` runs
+  once client-side; the tree is wrapped in `<IonApp>`; each route renders inside
+  `IonPage > IonContent`. Everything stays **static-export-safe** (§6).
 - `appId`: `com.akusoft.app` · `appName`: `Akusoft UKM` · `webDir`: `out`.
 - **Native plugins:**
   - `@capacitor/camera` — scan receipts/struk → upload to Storage `bills/`.
@@ -130,6 +140,20 @@ One web codebase → Web + Android + iOS.
 
 **Aesthetic:** Airy Minimalism, bright light mode, Bento grid. Pure white cards on a soft
 pearl canvas, sapphire + mint accents, high-contrast slate typography, micro-shadows.
+
+### 8.1 Ionic theming (how the design system maps onto Ionic components)
+
+The Luminous Precision palette is the source of truth; Ionic components inherit it through
+Ionic CSS variables so `ion-*` widgets match the brand on both platforms:
+
+- `--ion-color-primary` ← Sapphire `#2563EB`; `--ion-color-success` ← Mint `#10B981`;
+  `--ion-color-danger` ← Coral `#EF4444`; `--ion-color-warning` ← Amber `#D97706`.
+- `--ion-background-color` ← canvas `#F8FAFC`; `--ion-item-background` / card surface ← `#FFFFFF`.
+- `--ion-font-family` ← **Plus Jakarta Sans**; text tokens ← heading `#0F172A`, body `#334155`.
+- Radius: cards `rounded-lg`, controls `rounded-md`, pills `rounded-full` (see §2 note).
+
+These live in `src/app/ionic-theme.css`. Keep token **values** in DESIGN.md; the Ionic file only
+maps them. Status pills (`LUNAS`/`JATUH TEMPO`/`PENDING`) keep the §8 pastel-on-chroma spec.
 
 | Token | Value |
 |-------|-------|

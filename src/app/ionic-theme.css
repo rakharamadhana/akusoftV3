@@ -1,0 +1,382 @@
+/*
+ * Ionic ← Luminous Precision theme bridge (CLAUDE.md §8.1).
+ * Maps Ionic's CSS variables onto the design-system palette so ion-* components
+ * match the brand on iOS (mode: ios) and Android (mode: md). Token VALUES stay
+ * owned by DESIGN.md; this file only wires them into Ionic.
+ */
+:root {
+  /* Typography */
+  --ion-font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* Canvas + surfaces */
+  --ion-background-color: #f8fafc;
+  --ion-background-color-rgb: 248, 250, 252;
+  --ion-text-color: #334155;
+  --ion-text-color-rgb: 51, 65, 85;
+  --ion-item-background: #ffffff;
+  --ion-toolbar-background: #ffffff;
+  --ion-tab-bar-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-border-color: #e2e8f0;
+
+  /* Primary — Sapphire #2563EB */
+  --ion-color-primary: #2563eb;
+  --ion-color-primary-rgb: 37, 99, 235;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #1d4ed8;
+  --ion-color-primary-tint: #3b73ed;
+
+  /* Success — Mint #10B981 */
+  --ion-color-success: #10b981;
+  --ion-color-success-rgb: 16, 185, 129;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #059669;
+  --ion-color-success-tint: #28c08f;
+
+  /* Danger — Coral #EF4444 */
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d23c3c;
+  --ion-color-danger-tint: #f15757;
+
+  /* Warning — Amber #D97706 */
+  --ion-color-warning: #d97706;
+  --ion-color-warning-rgb: 217, 119, 6;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #bf6905;
+  --ion-color-warning-tint: #dd8424;
+
+  /* Neutral text tints used across components */
+  --ion-color-medium: #64748b;
+  --ion-color-medium-rgb: 100, 116, 139;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #58647d;
+  --ion-color-medium-tint: #748099;
+
+  --ion-toolbar-color: #0f172a;
+}
+
+/* Headings use the darker slate heading color. */
+ion-title,
+h1, h2, h3, h4 {
+  color: #0f172a;
+}
+
+/* Responsive navigation (CLAUDE.md §7): the mobile bottom tab bar is hidden at
+   Ionic's `lg` breakpoint (992px) — matching IonSplitPane when="lg" — where the
+   persistent side menu takes over. Higher specificity than Ionic's
+   :host{display:flex} so it wins. */
+@media (min-width: 992px) {
+  ion-tab-bar.app-tab-bar {
+    display: none;
+  }
+}
+
+/* Give the desktop side menu a comfortable width. */
+ion-split-pane {
+  --side-width: 272px;
+  --side-max-width: 272px;
+  --side-min-width: 272px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+ion-split-pane.sidebar-collapsed {
+  --side-width: 72px;
+  --side-max-width: 72px;
+  --side-min-width: 72px;
+}
+
+ion-menu {
+  --width: 272px;
+  border-right: 1px solid var(--ion-border-color);
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+ion-split-pane.sidebar-collapsed ion-menu {
+  --width: 72px;
+}
+
+ion-split-pane.sidebar-collapsed ion-menu ion-item {
+  --padding-start: 4px;
+  --inner-padding-end: 4px;
+  --padding-end: 4px;
+}
+
+/* =====================================================================
+   Modernized component theming — Luminous Precision (DESIGN.md)
+   Airy minimalism, bento cards, micro-shadows, sapphire + mint accents.
+   ===================================================================== */
+
+/* ---- Top toolbar / header ---- */
+ion-header {
+  box-shadow: none !important;
+}
+ion-header::after {
+  display: none !important;
+  background-image: none !important;
+}
+ion-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  --border-color: transparent;
+  --min-height: 62px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --box-shadow: none;
+}
+ion-toolbar ion-title {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Bento cards ---- */
+ion-card {
+  margin: 0;
+  border: 1px solid var(--ion-border-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+ion-card.card-button,
+ion-card[button] {
+  cursor: pointer;
+}
+ion-card.card-button:hover,
+ion-card[button]:hover {
+  box-shadow: 0 12px 20px -6px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+ion-card-content {
+  padding: 20px;
+}
+
+/* ---- Buttons — rounded-md, no heavy shadow, sentence case ---- */
+ion-button {
+  --border-radius: 10px;
+  --box-shadow: none;
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: 0;
+  height: 44px;
+}
+ion-button[fill='outline'] {
+  --border-width: 1px;
+  --border-color: var(--ion-border-color);
+  --color: var(--ion-text-color);
+  --background-hover: var(--ion-color-light, #f2f4f6);
+}
+ion-button[size='small'] {
+  height: 34px;
+  --border-radius: 8px;
+}
+
+/* ---- Inputs / selects / textareas ---- */
+ion-input,
+ion-select,
+ion-textarea {
+  --border-radius: 10px;
+  --highlight-color-focused: var(--ion-color-primary);
+}
+
+/* ---- Segment — modern pill ---- */
+ion-segment {
+  --background: #eceef0;
+  border-radius: 12px;
+  padding: 4px;
+}
+ion-segment-button {
+  --border-radius: 8px;
+  --indicator-color: #ffffff;
+  --color: #64748b;
+  --color-checked: var(--ion-color-primary);
+  --indicator-box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.1);
+  text-transform: none;
+  font-weight: 600;
+  min-height: 34px;
+}
+
+/* ---- Lists / items ---- */
+ion-item {
+  --border-color: var(--ion-border-color);
+  --background: #ffffff;
+}
+ion-list-header {
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
+/* ---- Sidebar (desktop side nav) ---- */
+ion-menu {
+  --width: 272px;
+  border-right: 1px solid var(--ion-border-color);
+}
+ion-menu ion-content {
+  --background: #ffffff;
+}
+ion-menu ion-toolbar {
+  --min-height: 70px;
+}
+ion-menu ion-list {
+  padding: 10px;
+  background: transparent;
+}
+ion-menu ion-item {
+  --background: transparent;
+  --background-hover: #f2f4f6;
+  --border-radius: 12px;
+  --padding-start: 14px;
+  --inner-padding-end: 10px;
+  --min-height: 48px;
+  --color: #475569;
+  --border-width: 0;
+  --inner-border-width: 0;
+  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+/* Active nav item = rounded sapphire pill with lift. */
+ion-menu ion-item.ion-color-primary {
+  --background: var(--ion-color-primary);
+  --color: #ffffff;
+  box-shadow: 0 8px 16px -6px rgba(37, 99, 235, 0.5);
+}
+
+/* ---- Bottom tab bar (mobile) ---- */
+ion-tab-bar {
+  border-top: 1px solid var(--ion-border-color);
+  height: 64px;
+  padding-top: 6px;
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+  overflow: visible !important;
+  contain: none !important;
+}
+ion-tab-button {
+  --color: #64748b;
+  --color-selected: var(--ion-color-primary);
+  overflow: visible !important;
+  contain: none !important;
+}
+ion-tab-button ion-label {
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 3px;
+}
+ion-tab-button.tab-selected {
+  --color: var(--ion-color-primary);
+}
+
+/* ---- Status badges — pastel bg + high-chroma text (pill) ---- */
+ion-badge {
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+/* Colored badges read --ion-color-base/contrast, which Ionic sets with
+   !important, so our pastel overrides must be !important too. */
+ion-badge.ion-color-success {
+  --ion-color-base: #d1fae5 !important;
+  --ion-color-contrast: #059669 !important;
+}
+ion-badge.ion-color-danger {
+  --ion-color-base: #fee2e2 !important;
+  --ion-color-contrast: #dc2626 !important;
+}
+ion-badge.ion-color-warning {
+  --ion-color-base: #fef3c7 !important;
+  --ion-color-contrast: #d97706 !important;
+}
+ion-badge.ion-color-primary {
+  --ion-color-base: #e0e7ff !important;
+  --ion-color-contrast: #4338ca !important;
+}
+ion-badge.ion-color-medium {
+  --ion-color-base: #eceef0 !important;
+  --ion-color-contrast: #64748b !important;
+}
+
+/* ---- Restore type scale inside Ionic cards/labels ----
+   Ionic's `.card-content-md h3` / `.sc-ion-label h3` rules (specificity 0,1,1)
+   flatten our heading utilities. Re-assert the Luminous Precision type scale so
+   metrics and titles keep their hierarchy (DESIGN.md §Typography). */
+.text-headline-lg {
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  line-height: 40px !important;
+  letter-spacing: -0.02em;
+}
+.text-headline-md {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  line-height: 32px !important;
+  letter-spacing: -0.01em;
+}
+.text-headline-sm {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+}
+.text-metric-display {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 36px !important;
+  letter-spacing: -0.03em;
+}
+/* List-item titles inside ion-label keep a clear weight. */
+ion-label h3 {
+  font-weight: 600;
+  color: var(--slate-heading, #0f172a);
+}
+
+/* ---- Popover ---- */
+ion-popover {
+  --width: 260px;
+  --border-radius: 14px;
+  --box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.18);
+}
+
+/* ---- Mobile metric carousel: hide scrollbar ---- */
+.metric-scroller {
+  scrollbar-width: none;
+}
+.metric-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Clean Print & PDF Styles ---- */
+@media print {
+  ion-menu,
+  ion-header,
+  ion-tab-bar,
+  .no-print,
+  button:not(.printable),
+  ion-button:not(.printable) {
+    display: none !important;
+  }
+  body, ion-page, ion-content {
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+  }
+  ion-card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+  th, td {
+    border-bottom: 1px solid #cbd5e1 !important;
+    padding: 8px !important;
+  }
+}

@@ -1,63 +1,86 @@
 'use client';
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createClient } from '@/lib/supabase/client';
+import type { Tables } from '@/lib/supabase/database.types';
 
 /**
- * Client-side auth for the demo/static build. This is NOT real security — it
- * gates the UI so the app is testable without a live Supabase project. When
- * Supabase Auth is wired (CLAUDE.md §5), replace `login` with a real call and
- * keep RLS as the actual data boundary.
+ * Session state backed by Supabase Auth. Supabase persists the JWT itself; this
+ * store mirrors the resolved user + the companies they belong to for the UI.
+ * A user can belong to many companies (CLAUDE.md §5 multi-tenant); the active
+ * one is persisted so it survives reloads. RLS is the real security boundary.
  */
 
-// Dummy account for local testing / `ionic serve`.
 export const DEMO_ACCOUNT = {
   email: 'demo@akusoft.id',
   password: 'akusoft123',
-  name: 'Budi Santoso',
-  company: 'PT Akusoft Nusantara',
 } as const;
 
-export interface AuthUser {
+const ACTIVE_KEY = 'akusoft-active-company';
+
+export interface SessionUser {
+  id: string;
   email: string;
   name: string;
-  company: string;
 }
+
+export type ActiveCompany = Tables<'companies'>;
 
 interface AuthState {
-  user: AuthUser | null;
-  hasHydrated: boolean;
-  login: (email: string, password: string) => boolean;
-  logout: () => void;
-  setHasHydrated: (v: boolean) => void;
+  hydrated: boolean;
+  user: SessionUser | null;
+  companies: ActiveCompany[];
+  activeCompanyId: string | null;
+  setUser: (user: SessionUser | null) => void;
+  setCompanies: (companies: ActiveCompany[]) => void;
+  setActiveCompanyId: (id: string | null) => void;
+  upsertCompany: (company: ActiveCompany) => void;
+  setHydrated: (v: boolean) => void;
+  reset: () => void;
+  signOut: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      user: null,
-      hasHydrated: false,
-      login: (email, password) => {
-        const ok =
-          email.trim().toLowerCase() === DEMO_ACCOUNT.email &&
-          password === DEMO_ACCOUNT.password;
-        if (ok) {
-          set({
-            user: {
-              email: DEMO_ACCOUNT.email,
-              name: DEMO_ACCOUNT.name,
-              company: DEMO_ACCOUNT.company,
-            },
-          });
-        }
-        return ok;
-      },
-      logout: () => set({ user: null }),
-      setHasHydrated: (v) => set({ hasHydrated: v }),
-    }),
-    {
-      name: 'akusoft-auth',
-      onRehydrateStorage: () => (state) => state?.setHasHydrated(true),
-    },
-  ),
-);
+const clearActive = () => {
+  if (typeof window !== 'undefined') localStorage.removeItem(ACTIVE_KEY);
+};
+
+export const useAuthStore = create<AuthState>()((set) => ({
+  hydrated: false,
+  user: null,
+  companies: [],
+  activeCompanyId: null,
+  setUser: (user) => set({ user }),
+  setCompanies: (companies) => set({ companies }),
+  setActiveCompanyId: (id) => {
+    if (typeof window !== 'undefined' && id) localStorage.setItem(ACTIVE_KEY, id);
+    set({ activeCompanyId: id });
+  },
+  upsertCompany: (company) =>
+    set((s) => ({ companies: s.companies.map((c) => (c.id === company.id ? company : c)) })),
+  setHydrated: (v) => set({ hydrated: v }),
+  reset: () => {
+    clearActive();
+    set({ user: null, companies: [], activeCompanyId: null });
+  },
+  signOut: async () => {
+    await createClient().auth.signOut();
+    clearActive();
+    set({ user: null, companies: [], activeCompanyId: null });
+  },
+}));
+
+/** The stored active-company id (used to restore selection on load). */
+export function readStoredActiveCompanyId(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(ACTIVE_KEY);
+}
+
+/** The active company object (or null before it resolves). */
+export function useActiveCompany(): ActiveCompany | null {
+  return useAuthStore((s) => s.companies.find((c) => c.id === s.activeCompanyId) ?? null);
+}
+
+/** The active company id (or null before it resolves). */
+export function useCompanyId(): string | null {
+  return useAuthStore((s) => s.activeCompanyId);
+}

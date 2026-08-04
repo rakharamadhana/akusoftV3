@@ -1,11 +1,12 @@
 import {
   LayoutDashboard,
+  ListTree,
+  Package,
+  ArrowDownCircle,
+  ArrowUpCircle,
   ArrowLeftRight,
-  ReceiptText,
-  Wallet,
-  Landmark,
-  FileText,
   BarChart3,
+  Settings,
   type LucideIcon,
 } from 'lucide-react';
 import { id } from '@/i18n/locales/id';
@@ -18,12 +19,16 @@ export interface NavItem {
 }
 
 // Single source of nav truth, shared by desktop sidebar and mobile bottom nav.
+// Mirrors the v2 single-entry menu structure (akusoftv2-flow.md §3). The older
+// v3 screens (faktur, kas-bank, pajak, arus-kas) stay reachable by URL but are
+// intentionally off the primary nav.
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'overview', label: id.nav.overview, href: '/', icon: LayoutDashboard },
-  { key: 'cashflow', label: id.nav.cashflow, href: '/arus-kas', icon: ArrowLeftRight },
-  { key: 'invoices', label: id.nav.invoices, href: '/faktur', icon: ReceiptText },
-  { key: 'expenses', label: id.nav.expenses, href: '/pengeluaran', icon: Wallet },
-  { key: 'bank', label: id.nav.bank, href: '/kas-bank', icon: Landmark },
-  { key: 'tax', label: id.nav.tax, href: '/pajak', icon: FileText },
+  { key: 'home', label: id.nav.home, href: '/', icon: LayoutDashboard },
+  { key: 'accounts', label: id.nav.accounts, href: '/akun', icon: ListTree },
+  { key: 'items', label: id.nav.items, href: '/item', icon: Package },
+  { key: 'income', label: id.nav.income, href: '/pemasukan', icon: ArrowDownCircle },
+  { key: 'expenses', label: id.nav.expenses, href: '/pengeluaran', icon: ArrowUpCircle },
+  { key: 'transactions', label: id.nav.transactions, href: '/transaksi', icon: ArrowLeftRight },
   { key: 'reports', label: id.nav.reports, href: '/laporan', icon: BarChart3 },
+  { key: 'settings', label: id.nav.settings, href: '/pengaturan', icon: Settings },
 ];
