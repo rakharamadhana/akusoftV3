@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit",
     "cap:sync": "next build && npx cap sync",
     "cap:android": "next build && npx cap sync && npx cap open android",
-    "cap:ios": "next build && npx cap sync && npx cap open ios"
+    "cap:ios": "next build && npx cap sync && npx cap open ios",
+    "audit:security": "npm audit --audit-level=high",
+    "zap:scan": "node scripts/run-zap-scan.js"
   },
   "dependencies": {
     "@ionic/react": "^8.8.16",

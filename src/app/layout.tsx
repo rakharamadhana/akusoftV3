@@ -30,6 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // Ionic writes platform classes (plt-*, mode) onto <html>/<body> on the client;
     // suppressHydrationWarning keeps that from being flagged as a mismatch.
     <html lang="id" className={`${jakarta.variable} light`} suppressHydrationWarning>
+      <head>
+        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+      </head>
       <body suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>

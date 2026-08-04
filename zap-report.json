@@ -1,0 +1,35 @@
+{
+  "target": "https://akusoft.ai",
+  "timestamp": "2026-08-04T07:27:26.032Z",
+  "testsPassed": 3,
+  "testsFailed": 4,
+  "vulnerabilities": [
+    {
+      "testName": "CSP Header Present",
+      "details": "Missing Content-Security-Policy header"
+    },
+    {
+      "testName": "Clickjacking Protection (X-Frame-Options)",
+      "details": "Missing X-Frame-Options header"
+    },
+    {
+      "testName": "MIME Sniffing Protection (X-Content-Type-Options)",
+      "details": "Missing X-Content-Type-Options header"
+    },
+    {
+      "testName": "Referrer Policy Configured",
+      "details": "Missing Referrer-Policy header"
+    }
+  ],
+  "securityHeaders": {
+    "cache-control": "public, max-age=0, must-revalidate",
+    "content-type": "text/plain",
+    "date": "Tue, 04 Aug 2026 07:27:27 GMT",
+    "location": "https://www.akusoft.ai/",
+    "refresh": "0;url=https://www.akusoft.ai/",
+    "server": "Vercel",
+    "strict-transport-security": "max-age=63072000",
+    "x-vercel-id": "hkg1::sxrk8-1785828446828-8a372e027ff2",
+    "transfer-encoding": "chunked"
+  }
+}
